@@ -6,23 +6,33 @@ const Ship = () => {
   const ships = [
     {
       name: 'destroyer',
-      ship: ['x', 'x'],
+      length: 2,
+      sunk: false,
+      ship: [false, false],
     },
     {
       name: 'submarine',
-      ship: ['x', 'x', 'x'],
+      length: 3,
+      sunk: false,
+      ship: [false, false, false],
     },
     {
       name: 'cruiser',
-      ship: ['x', 'x', 'x'],
+      length: 3,
+      sunk: false,
+      ship: [false, false, false],
     },
     {
       name: 'battleship',
-      ship: ['x', 'x', 'x', 'x'],
+      length: 4,
+      sunk: false,
+      ship: [false, false, false, false],
     },
     {
       name: 'carrier',
-      ship: ['x', 'x', 'x', 'x', 'x'],
+      length: 5,
+      sunk: false,
+      ship: [false, false, false, false, false],
     },
   ];
 };
