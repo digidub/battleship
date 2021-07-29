@@ -6,5 +6,6 @@ test('produces a basic ship object', () => {
     length: 3,
     orientation: 'horizontal',
     sunk: false,
+    hits: [false, false, false],
   });
 });
