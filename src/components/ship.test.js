@@ -9,3 +9,13 @@ test('produces a basic ship object', () => {
     hits: [false, false, false],
   });
 });
+
+test('produces a longer ship object', () => {
+  expect(Ship('longerShip', 5)).toStrictEqual({
+    name: 'longerShip',
+    length: 5,
+    orientation: 'horizontal',
+    sunk: false,
+    hits: [false, false, false, false, false],
+  });
+});
