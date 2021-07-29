@@ -5,7 +5,7 @@ const Ship = (name, length, orientation = 'horizontal') => ({
   name,
   length,
   orientation,
-  // sunk: false,
+  sunk: false,
   // hits: new Array(length).fill(false),
   // hit(coordinates) {},
 });
