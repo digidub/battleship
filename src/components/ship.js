@@ -9,6 +9,12 @@ const Ship = (name, length, orientation = 'horizontal') => {
     hits[position] = true;
   };
 
+  const sunkChecker = (arr) => arr.every((i) => i === true);
+
+  const sink = () => {
+    if (sunkChecker(hits) === true) sunk = true;
+  };
+
   return {
     name,
     length,
@@ -16,6 +22,7 @@ const Ship = (name, length, orientation = 'horizontal') => {
     sunk,
     hits,
     hit,
+    sink,
   };
 };
 
