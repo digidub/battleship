@@ -1,14 +1,23 @@
 // factory function to produce ships. Ships are objects
 // that include their length, where they have been hit, and whether or not they've been sunk
 
-const Ship = (name, length, orientation = 'horizontal') => ({
-  name,
-  length,
-  orientation,
-  sunk: false,
-  hits: Array(length).fill(false),
-  // hit(coordinates) {},
-});
+const Ship = (name, length, orientation = 'horizontal') => {
+  let sunk = false;
+  const hits = Array(length).fill(false);
+
+  const hit = (position) => {
+    hits[position] = true;
+  };
+
+  return {
+    name,
+    length,
+    orientation,
+    sunk,
+    hits,
+    hit,
+  };
+};
 
 //   {
 //   ships: [
