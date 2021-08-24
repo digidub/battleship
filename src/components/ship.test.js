@@ -32,5 +32,12 @@ describe('ship', () => {
       shipOne.hit(3);
       expect(shipOne.hits).toStrictEqual([false, false, false, true]);
     });
+    it('hits multiple positions in the hits array', () => {
+      const shipOne = Ship('testShip', 4);
+      shipOne.hit(3);
+      shipOne.hit(2);
+      shipOne.hit(1);
+      expect(shipOne.hits).toStrictEqual([false, true, true, true]);
+    });
   });
 });
