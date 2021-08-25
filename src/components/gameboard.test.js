@@ -70,5 +70,14 @@ describe('Gameboard', () => {
       game.receiveAttack(0, 4);
       expect(game.grid[0]).toEqual([null, null, null, null, 'x', null, null, null, null, null]);
     });
+    it('marks a hit on a ship', () => {
+      const game = Gameboard();
+      game.buildGrid();
+      const shipOne = Ship('small', 2);
+      game.placeShip(shipOne, 3, 0);
+      expect(game.grid[0]).toEqual([null, null, null, 'small', 'small', null, null, null, null, null]);
+      game.receiveAttack(0, 4);
+      expect(game.grid[0]).toEqual([null, null, null, 'small', 'x', null, null, null, null, null]);
+    });
   });
 });
