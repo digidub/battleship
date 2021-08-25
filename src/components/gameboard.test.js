@@ -64,5 +64,11 @@ describe('Gameboard', () => {
       expect(game.grid[0]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
       expect(game.grid[1]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
     });
+    it('marks a hit on the grid', () => {
+      const game = Gameboard();
+      game.buildGrid();
+      game.receiveAttack(0, 4);
+      expect(game.grid[0]).toEqual([null, null, null, null, 'x', null, null, null, null, null]);
+    });
   });
 });
