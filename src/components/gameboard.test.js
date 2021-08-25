@@ -21,14 +21,14 @@ describe('Gameboard', () => {
       const ship = Ship('small', 3);
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual(['small', 'small', 'small', '03', '04', '05', '06', '07', '08', '09']);
+      expect(game.grid[0]).toEqual(['small', 'small', 'small', null, null, null, null, null, null, null]);
     });
     it('places a ship in the last coordinates of the first row', () => {
       const game = Gameboard();
       const ship = Ship('small', 2);
       game.buildGrid();
       game.placeShip(ship, 0, 8);
-      expect(game.grid[0]).toEqual(['00', '01', '02', '03', '04', '05', '06', '07', 'small', 'small']);
+      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, 'small', 'small']);
     });
     it('places multiple horizontal ships', () => {
       const game = Gameboard();
@@ -39,18 +39,30 @@ describe('Gameboard', () => {
       game.placeShip(shipOne, 0, 8);
       game.placeShip(shipTwo, 4, 0);
       game.placeShip(shipThree, 8, 4);
-      expect(game.grid[0]).toEqual(['00', '01', '02', '03', '04', '05', '06', '07', 'small', 'small']);
-      expect(game.grid[4]).toEqual(['med', 'med', 'med', '43', '44', '45', '46', '47', '48', '49']);
-      expect(game.grid[8]).toEqual(['80', '81', '82', '83', 'large', 'large', 'large', 'large', '88', '89']);
+      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, 'small', 'small']);
+      expect(game.grid[4]).toEqual(['med', 'med', 'med', null, null, null, null, null, null, null]);
+      expect(game.grid[8]).toEqual([null, null, null, null, 'large', 'large', 'large', 'large', null, null]);
     });
     it('places a ship vertically in the first coordinates of the first column', () => {
       const game = Gameboard();
-      const ship = Ship('small', 3);
+      const ship = Ship('med', 3);
       ship.switchOrientation();
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual(['small', '01', '02', '03', '04', '05', '06', '07', '08', '09']);
-      expect(game.grid[1]).toEqual(['small', '11', '12', '13', '14', '15', '16', '17', '18', '19']);
+      expect(game.grid[0]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[2]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
+    });
+    it('prevents a ship being placed over another ship', () => {
+      const game = Gameboard();
+      const shipOne = Ship('small', 2);
+      const shipTwo = Ship('med', 3);
+      shipOne.switchOrientation();
+      game.buildGrid();
+      game.placeShip(shipOne, 0, 0);
+      game.placeShip(shipTwo, 1, 0);
+      expect(game.grid[0]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
     });
   });
 });
