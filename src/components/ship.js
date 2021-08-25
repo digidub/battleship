@@ -9,9 +9,9 @@ const Ship = (name, length, orientation = 'horizontal') => {
     if (position <= hits.length) hits[position] = true;
   };
 
-  function sink() {
+  const sink = () => {
     if (!hits.includes(false)) sunk = true;
-  }
+  };
 
   return {
     name,
