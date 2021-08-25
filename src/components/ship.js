@@ -6,7 +6,7 @@ const Ship = (name, length, orientation = 'horizontal') => {
   const hits = Array(length).fill(false);
 
   const hit = (position) => {
-    hits[position] = true;
+    if (position <= hits.length) hits[position] = true;
   };
 
   const sunkChecker = (arr) => arr.every((i) => i === true);
