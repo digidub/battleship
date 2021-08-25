@@ -43,5 +43,14 @@ describe('Gameboard', () => {
       expect(game.grid[4]).toEqual(['med', 'med', 'med', '43', '44', '45', '46', '47', '48', '49']);
       expect(game.grid[8]).toEqual(['80', '81', '82', '83', 'large', 'large', 'large', 'large', '88', '89']);
     });
+    it('places a ship vertically in the first coordinates of the first column', () => {
+      const game = Gameboard();
+      const ship = Ship('small', 3);
+      ship.switchOrientation();
+      game.buildGrid();
+      game.placeShip(ship, 0, 0);
+      expect(game.grid[0]).toEqual(['small', '01', '02', '03', '04', '05', '06', '07', '08', '09']);
+      expect(game.grid[1]).toEqual(['small', '11', '12', '13', '14', '15', '16', '17', '18', '19']);
+    });
   });
 });
