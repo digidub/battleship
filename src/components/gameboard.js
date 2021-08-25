@@ -26,12 +26,17 @@ const Gameboard = () => {
     }
   };
 
+  const receiveAttack = (i, j) => {
+    grid[i][j] = 'x';
+  };
+
   return {
     get grid() {
       return grid;
     },
     buildGrid,
     placeShip,
+    receiveAttack,
   };
 };
 
