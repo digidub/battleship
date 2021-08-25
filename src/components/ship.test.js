@@ -41,7 +41,7 @@ describe('ship hits', () => {
     });
     it('cannot hit a position that is not in the array', () => {
       const shipOne = Ship('testShip', 4);
-      shipOne.hit(4);
+      shipOne.hit(5);
       expect(shipOne.hits).toStrictEqual([false, false, false, false]);
     });
   });
@@ -50,12 +50,11 @@ describe('ship hits', () => {
 describe('ship sunk', () => {
   describe('all hits lead to a sunk ship', () => {
     it('set sink to true', () => {
-      const shipOne = Ship('testShip', 3);
+      const shipOne = Ship('testShip', 2);
       shipOne.hit(0);
-      shipOne.hit(2);
       shipOne.hit(1);
       shipOne.sink();
-      expect(shipOne.sunk).toStrictEqual(true);
+      expect(shipOne.sunk).toEqual(true);
     });
   });
 });
