@@ -15,8 +15,14 @@ const Gameboard = () => {
 
   const placeShip = (ship, i, j) => {
     const gridCellsUsed = ship.length;
-    for (let x = 0; x < gridCellsUsed; x += 1) {
-      grid[i][j + x] = ship.name;
+    if (ship.orientation === 'horizontal') {
+      for (let x = 0; x < gridCellsUsed; x += 1) {
+        grid[i][j + x] = ship.name;
+      }
+    } else {
+      for (let x = 0; x < gridCellsUsed; x += 1) {
+        grid[i + x][j] = ship.name;
+      }
     }
   };
 
