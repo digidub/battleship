@@ -58,3 +58,19 @@ describe('ship sunk', () => {
     });
   });
 });
+
+describe('ship orientation', () => {
+  describe('switches orientation', () => {
+    it('sets horizontal to vertical', () => {
+      const shipOne = Ship('testShip', 2);
+      shipOne.switchOrientation();
+      expect(shipOne.orientation).toEqual('vertical');
+    });
+    it('sets horizontal to vertical back to horizontal', () => {
+      const shipOne = Ship('testShip', 2);
+      shipOne.switchOrientation();
+      shipOne.switchOrientation();
+      expect(shipOne.orientation).toEqual('horizontal');
+    });
+  });
+});
