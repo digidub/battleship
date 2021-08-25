@@ -9,20 +9,23 @@ const Ship = (name, length, orientation = 'horizontal') => {
     if (position <= hits.length) hits[position] = true;
   };
 
-  const sunkChecker = (arr) => arr.every((i) => i === true);
-
-  const sink = () => {
-    if (sunkChecker(hits) === true) sunk = true;
-  };
+  function sink() {
+    if (!hits.includes(false)) sunk = true;
+  }
 
   return {
     name,
     length,
     orientation,
-    sunk,
-    hits,
     hit,
     sink,
+    // get values using getters
+    get sunk() {
+      return sunk;
+    },
+    get hits() {
+      return hits;
+    },
   };
 };
 
