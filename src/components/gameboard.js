@@ -1,3 +1,5 @@
+// const Ship = require('./ship');
+
 const Gameboard = () => {
   let grid = [];
 
@@ -11,11 +13,19 @@ const Gameboard = () => {
     }
   };
 
+  const placeShip = (ship, i, j) => {
+    const gridCellsUsed = ship.length;
+    for (let x = 0; x < gridCellsUsed; x += 1) {
+      grid[i][j + x] = ship.name;
+    }
+  };
+
   return {
     get grid() {
       return grid;
     },
     buildGrid,
+    placeShip,
   };
 };
 
