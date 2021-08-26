@@ -21,10 +21,6 @@ const Gameboard = () => {
   };
 
   const createShips = () => {
-    // shipNamesAndLengths.forEach((obj) => {
-    //   const ship = Ship(obj.name, obj.length);
-    //   ships.push(ship);
-    // });
     ships = shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
   };
 
@@ -42,13 +38,18 @@ const Gameboard = () => {
     }
   };
 
-  // const receiveAttack = (i, j, ship) => {
-  //   if (grid[i][j] !== null && grid[i][j] !== 'x') {
-  //     let shipName = grid[i][j];
-  //     window[shipName].hit();
-  //   }
-  //   grid[i][j] = 'x';
-  // };
+  const findShipByName = (name) => {
+    ships.filter((obj) => obj.name === name);
+  };
+
+  const receiveAttack = (i, j) => {
+    if (grid[i][j] !== null && grid[i][j] !== 'x') {
+      const shipName = grid[i][j];
+      const hitShip = findShipByName(shipName);
+      hitShip.hit(0);
+    }
+    grid[i][j] = 'x';
+  };
 
   return {
     get grid() {
@@ -60,7 +61,7 @@ const Gameboard = () => {
     buildGrid,
     createShips,
     placeShip,
-    // receiveAttack,
+    receiveAttack,
   };
 };
 
