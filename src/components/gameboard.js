@@ -29,11 +29,11 @@ const Gameboard = () => {
     const gridCellsUsed = ship.length;
     if (ship.orientation === 'horizontal') {
       for (let x = 0; x < gridCellsUsed; x += 1) {
-        grid[i][j + x] = ship.name;
+        grid[i][j + x] = { name: ship.name, index: x };
       }
     } else {
       for (let x = 0; x < gridCellsUsed; x += 1) {
-        grid[i + x][j] = ship.name;
+        grid[i + x][j] = { name: ship.name, index: x };
       }
     }
   };
