@@ -15,6 +15,22 @@ describe('Gameboard', () => {
       expect(game.grid[9].length).toEqual(10);
     });
   });
+  describe('ship creation', () => {
+    it('creates ships with correct name and length', () => {
+      const game = Gameboard();
+      game.createShips();
+      expect(game.ships[0].name).toEqual('destroyer');
+      expect(game.ships[1].name).toEqual('submarine');
+      expect(game.ships[2].name).toEqual('cruiser');
+      expect(game.ships[3].name).toEqual('battleship');
+      expect(game.ships[4].name).toEqual('carrier');
+      expect(game.ships[0].length).toEqual(2);
+      expect(game.ships[1].length).toEqual(3);
+      expect(game.ships[2].length).toEqual(3);
+      expect(game.ships[3].length).toEqual(4);
+      expect(game.ships[4].length).toEqual(5);
+    });
+  });
   describe('ship placement', () => {
     it('places a ship in the first coordinates of the first row', () => {
       const game = Gameboard();
@@ -70,14 +86,14 @@ describe('Gameboard', () => {
       game.receiveAttack(0, 4);
       expect(game.grid[0]).toEqual([null, null, null, null, 'x', null, null, null, null, null]);
     });
-    it('marks a hit on a ship', () => {
-      const game = Gameboard();
-      game.buildGrid();
-      const shipOne = Ship('small', 2);
-      game.placeShip(shipOne, 3, 0);
-      expect(game.grid[0]).toEqual([null, null, null, 'small', 'small', null, null, null, null, null]);
-      game.receiveAttack(0, 4);
-      expect(game.grid[0]).toEqual([null, null, null, 'small', 'x', null, null, null, null, null]);
-    });
+    // it('marks a hit on a ship', () => {
+    //   const game = Gameboard();
+    //   game.buildGrid();
+    //   const small = Ship('small', 2);
+    //   game.placeShip(small, 3, 0);
+    //   expect(game.grid[0]).toEqual([null, null, null, 'small', 'small', null, null, null, null, null]);
+    //   game.receiveAttack(0, 4, shipOne);
+    //   expect(game.grid[0]).toEqual([null, null, null, 'small', 'x', null, null, null, null, null]);
+    // });
   });
 });
