@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const Gameboard = require('./gameboard');
 const Ship = require('./ship');
 
@@ -130,14 +131,15 @@ describe('Gameboard', () => {
       game.receiveAttack(0, 4);
       expect(game.grid[0]).toEqual([null, null, null, null, 'x', null, null, null, null, null]);
     });
-    // it('marks a hit on a ship', () => {
-    //   const game = Gameboard();
-    //   game.buildGrid();
-    //   const small = Ship('small', 2);
-    //   game.placeShip(small, 3, 0);
-    //   expect(game.grid[0]).toEqual([null, null, null, 'small', 'small', null, null, null, null, null]);
-    //   game.receiveAttack(0, 4, shipOne);
-    //   expect(game.grid[0]).toEqual([null, null, null, 'small', 'x', null, null, null, null, null]);
-    // });
+    it('marks a hit on a ship', () => {
+      const game = Gameboard();
+      game.buildGrid();
+      game.createShips();
+      const ship = Ship('destroyer', 2);
+      game.placeShip(ship, 0, 3);
+      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, index: 0 }, { name: ship.name, index: 1 }, null, null, null, null, null]);
+      game.receiveAttack(0, 4);
+      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, index: 0 }, 'x', null, null, null, null, null]);
+    });
   });
 });
