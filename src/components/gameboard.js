@@ -38,15 +38,13 @@ const Gameboard = () => {
     }
   };
 
-  const findShipByName = (name) => {
-    ships.filter((obj) => obj.name === name);
-  };
+  const findShipByName = (name) => ships.find((obj) => obj.name === name);
 
   const receiveAttack = (i, j) => {
     if (grid[i][j] !== null && grid[i][j] !== 'x') {
-      const shipName = grid[i][j];
-      const hitShip = findShipByName(shipName);
-      hitShip.hit(0);
+      const shipObj = grid[i][j];
+      const hitShip = findShipByName(shipObj.name);
+      hitShip.hit(shipObj.index);
     }
     grid[i][j] = 'x';
   };
