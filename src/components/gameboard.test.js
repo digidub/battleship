@@ -37,14 +37,25 @@ describe('Gameboard', () => {
       const ship = Ship('small', 3);
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual(['small', 'small', 'small', null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        { name: ship.name, index: 0 },
+        { name: ship.name, index: 1 },
+        { name: ship.name, index: 2 },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ]);
     });
     it('places a ship in the last coordinates of the first row', () => {
       const game = Gameboard();
       const ship = Ship('small', 2);
       game.buildGrid();
       game.placeShip(ship, 0, 8);
-      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, 'small', 'small']);
+      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, { name: ship.name, index: 0 }, { name: ship.name, index: 1 }]);
     });
     it('places multiple horizontal ships', () => {
       const game = Gameboard();
@@ -55,9 +66,42 @@ describe('Gameboard', () => {
       game.placeShip(shipOne, 0, 8);
       game.placeShip(shipTwo, 4, 0);
       game.placeShip(shipThree, 8, 4);
-      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, 'small', 'small']);
-      expect(game.grid[4]).toEqual(['med', 'med', 'med', null, null, null, null, null, null, null]);
-      expect(game.grid[8]).toEqual([null, null, null, null, 'large', 'large', 'large', 'large', null, null]);
+      expect(game.grid[0]).toEqual([
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        { name: shipOne.name, index: 0 },
+        { name: shipOne.name, index: 1 },
+      ]);
+      expect(game.grid[4]).toEqual([
+        { name: shipTwo.name, index: 0 },
+        { name: shipTwo.name, index: 1 },
+        { name: shipTwo.name, index: 2 },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ]);
+      expect(game.grid[8]).toEqual([
+        null,
+        null,
+        null,
+        null,
+        { name: shipThree.name, index: 0 },
+        { name: shipThree.name, index: 1 },
+        { name: shipThree.name, index: 2 },
+        { name: shipThree.name, index: 3 },
+        null,
+        null,
+      ]);
     });
     it('places a ship vertically in the first coordinates of the first column', () => {
       const game = Gameboard();
@@ -65,9 +109,9 @@ describe('Gameboard', () => {
       ship.switchOrientation();
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[2]).toEqual(['med', null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([{ name: ship.name, index: 0 }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual([{ name: ship.name, index: 1 }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[2]).toEqual([{ name: ship.name, index: 2 }, null, null, null, null, null, null, null, null, null]);
     });
     it('prevents a ship being placed over another ship', () => {
       const game = Gameboard();
@@ -77,8 +121,8 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(shipOne, 0, 0);
       game.placeShip(shipTwo, 1, 0);
-      expect(game.grid[0]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual(['small', null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([{ name: shipOne.name, index: 0 }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual([{ name: shipOne.name, index: 1 }, null, null, null, null, null, null, null, null, null]);
     });
     it('marks a hit on the grid', () => {
       const game = Gameboard();
