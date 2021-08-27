@@ -26,22 +26,39 @@ const Gameboard = () => {
 
   const placeShip = (ship, i, j) => {
     if (grid[i][j] !== null) return;
-    const startPos = parseInt(`${i}${j}`, 10);
-    const endPos = startPos + ship.length;
+    const startPosX = i;
+    const startPosY = j;
+    const endPosX = startPosX + ship.length;
+    const endPosY = startPosY + ship.length;
+    const startPos = `${i}${j}`;
     if (ship.orientation === 'horizontal') {
       const newGrid = grid.map((row, indexX) =>
         row.map((element, indexY) => {
-          if (indexX === i && indexY < endPos && indexY >= startPos) {
+          if (indexX === i && indexY < endPosY && indexY >= startPosY) {
             return {
               name: ship.name,
               startPos,
             };
           }
-          return null;
+          return element;
+        })
+      );
+      grid = newGrid;
+    } else {
+      const newGrid = grid.map((row, indexX) =>
+        row.map((element, indexY) => {
+          if (indexY === j && indexX < endPosX && indexX >= startPosX) {
+            return {
+              name: ship.name,
+              startPos,
+            };
+          }
+          return element;
         })
       );
       grid = newGrid;
     }
+    return grid;
   };
 
   const findShipByName = (name) => ships.find((obj) => obj.name === name);
