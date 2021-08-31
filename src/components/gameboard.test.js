@@ -170,9 +170,14 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.createShips();
       game.placeShip(game.ships[1], 0, 0);
+      game.placeShip(game.ships[3], 4, 0);
       game.receiveAttack(0, 0);
       game.receiveAttack(0, 1);
       game.receiveAttack(0, 2);
+      game.receiveAttack(4, 0);
+      game.receiveAttack(4, 1);
+      game.receiveAttack(4, 2);
+      game.receiveAttack(4, 3);
       expect(game.checkAllShipsSunk()).toEqual(true);
     });
   });
