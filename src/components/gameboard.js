@@ -27,6 +27,8 @@ const Gameboard = () => {
 
   const placeShip = (ship, i, j) => {
     if (grid[i][j].ship !== false) return;
+    if (i > 10) return;
+    if (j > 10) return;
     const startPosX = i;
     const startPosY = j;
     const endPosX = startPosX + ship.length;
