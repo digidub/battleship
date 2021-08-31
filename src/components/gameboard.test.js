@@ -255,7 +255,6 @@ describe('Gameboard', () => {
       game.receiveAttack(4, 1);
       game.receiveAttack(4, 2);
       game.receiveAttack(4, 3);
-      console.log(game.grid);
       expect(game.checkAllShipsSunk()).toEqual(true);
     });
     it('returns false if not all ships are sunk', () => {
