@@ -12,11 +12,12 @@ const Gameboard = () => {
   let ships = [];
 
   const buildGrid = () => {
+    const gridObj = { ship: false, hit: false };
     grid = new Array(10);
-    grid.fill(null, 0);
+    grid.fill(gridObj, 0);
     for (let i = 0; i < grid.length; i += 1) {
       grid[i] = new Array(10);
-      grid[i].fill(null, 0);
+      grid[i].fill(gridObj, 0);
     }
   };
 
@@ -70,23 +71,37 @@ const Gameboard = () => {
   const findShipByName = (name) => ships.find((obj) => obj.name === name);
 
   const receiveAttack = (i, j) => {
-    if (grid[i][j] !== null && grid[i][j] !== 'x') {
-      const shipObj = grid[i][j];
+    if (grid[i][j].ship !== false && grid[i][j].hit !== false) {
+      const shipObj = grid[i][j].ship;
       const hitShip = findShipByName(shipObj.name);
       hitShip.hit(shipObj.index);
     }
-    grid[i][j] = 'x';
-  };
-
-  const isShip = (ship) => {
-    if (ship?.name) return true;
-    return false;
+    const newGrid = grid.map((row, indexX) =>
+      row.map((element, indexY) => {
+        if (indexX === i && indexY === j) {
+          return {
+            ...element,
+            hit: true,
+          };
+        }
+        return element;
+      })
+    );
+    grid = newGrid;
   };
 
   const checkAllShipsSunk = () => {
-    if (grid.filter(isShip).length < 1) return true;
-    return false;
+    for (let i = 0; i < grid.length; i += 1) {
+      for (let j = 0; j < grid.length; j += 1) {
+        if (grid[i][j].ship !== false && grid[i][j].hit !== true) {
+          return false;
+        }
+      }
+    }
+    return true;
   };
+
+  // grid.every((row) => row.every((cell) => cell.ship !== false && cell.hit === true));
 
   return {
     get grid() {
