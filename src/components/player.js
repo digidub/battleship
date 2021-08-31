@@ -1,5 +1,7 @@
-const Player = () => {
-  const attack = (board, x, y) => {
+const Player = (boolean) => {
+  const isAI = boolean;
+
+  const placeHit = (board, x, y) => {
     const hit = board.receiveAttack(x, y);
     if (hit === true) return true;
     return false;
@@ -13,8 +15,13 @@ const Player = () => {
     if (board.grid[x][y].hit === true) {
       aiAttack(board);
     }
-    attack(board, x, y);
+    placeHit(board, x, y);
     return { x, y };
+  };
+
+  const attack = (board, x, y) => {
+    if (isAI === true) aiAttack(board);
+    else placeHit(board, x, y);
   };
 
   return {
