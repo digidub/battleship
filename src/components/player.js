@@ -1,4 +1,4 @@
-const player = () => {
+const Player = () => {
   const attack = (board, x, y) => {
     board.receiveAttack(x, y);
   };
