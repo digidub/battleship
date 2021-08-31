@@ -39,16 +39,16 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(ship, 0, 0);
       expect(game.grid[0]).toEqual([
-        { name: ship.name, startPos: '00' },
-        { name: ship.name, startPos: '00' },
-        { name: ship.name, startPos: '00' },
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
       ]);
     });
     it('places a ship in the last coordinates of the first row', () => {
@@ -57,16 +57,16 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(ship, 0, 8);
       expect(game.grid[0]).toEqual([
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        { name: ship.name, startPos: '08' },
-        { name: ship.name, startPos: '08' },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { hit: false, ship: { name: ship.name, startPos: '08' } },
+        { hit: false, ship: { name: ship.name, startPos: '08' } },
       ]);
     });
     it('places multiple horizontal ships', () => {
@@ -79,40 +79,40 @@ describe('Gameboard', () => {
       game.placeShip(shipTwo, 4, 0);
       game.placeShip(shipThree, 8, 4);
       expect(game.grid[0]).toEqual([
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        { name: shipOne.name, startPos: '08' },
-        { name: shipOne.name, startPos: '08' },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { hit: false, ship: { name: shipOne.name, startPos: '08' } },
+        { hit: false, ship: { name: shipOne.name, startPos: '08' } },
       ]);
       expect(game.grid[4]).toEqual([
-        { name: shipTwo.name, startPos: '40' },
-        { name: shipTwo.name, startPos: '40' },
-        { name: shipTwo.name, startPos: '40' },
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+        { hit: false, ship: { name: shipTwo.name, startPos: '40' } },
+        { hit: false, ship: { name: shipTwo.name, startPos: '40' } },
+        { hit: false, ship: { name: shipTwo.name, startPos: '40' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
       ]);
       expect(game.grid[8]).toEqual([
-        null,
-        null,
-        null,
-        null,
-        { name: shipThree.name, startPos: '84' },
-        { name: shipThree.name, startPos: '84' },
-        { name: shipThree.name, startPos: '84' },
-        { name: shipThree.name, startPos: '84' },
-        null,
-        null,
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { hit: false, ship: { name: shipThree.name, startPos: '84' } },
+        { hit: false, ship: { name: shipThree.name, startPos: '84' } },
+        { hit: false, ship: { name: shipThree.name, startPos: '84' } },
+        { hit: false, ship: { name: shipThree.name, startPos: '84' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
       ]);
     });
     it('places a ship vertically in the first coordinates of the first column', () => {
@@ -121,9 +121,42 @@ describe('Gameboard', () => {
       ship.switchOrientation();
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[2]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
+      expect(game.grid[1]).toEqual([
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
+      expect(game.grid[2]).toEqual([
+        { hit: false, ship: { name: ship.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
     });
     it('prevents a ship being placed over another ship', () => {
       const game = Gameboard();
@@ -133,14 +166,47 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(shipOne, 0, 0);
       game.placeShip(shipTwo, 1, 0);
-      expect(game.grid[0]).toEqual([{ name: shipOne.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual([{ name: shipOne.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        { hit: false, ship: { name: shipOne.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
+      expect(game.grid[1]).toEqual([
+        { hit: false, ship: { name: shipOne.name, startPos: '00' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
     });
     it('marks a hit on the grid', () => {
       const game = Gameboard();
       game.buildGrid();
       game.receiveAttack(0, 4);
-      expect(game.grid[0]).toEqual([null, null, null, null, 'x', null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: true },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
     });
     it('marks a hit on a ship', () => {
       const game = Gameboard();
@@ -149,19 +215,30 @@ describe('Gameboard', () => {
       const ship = Ship('destroyer', 2);
       game.placeShip(ship, 0, 3);
       expect(game.grid[0]).toEqual([
-        null,
-        null,
-        null,
-        { name: ship.name, startPos: '03' },
-        { name: ship.name, startPos: '03' },
-        null,
-        null,
-        null,
-        null,
-        null,
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { hit: false, ship: { name: ship.name, startPos: '03' } },
+        { hit: false, ship: { name: ship.name, startPos: '03' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
       ]);
       game.receiveAttack(0, 4);
-      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, startPos: '03' }, 'x', null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { hit: false, ship: { name: ship.name, startPos: '03' } },
+        { hit: true, ship: { name: ship.name, startPos: '03' } },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+        { ship: false, hit: false },
+      ]);
     });
   });
   describe('checking all ships are sunk', () => {
@@ -179,6 +256,20 @@ describe('Gameboard', () => {
       game.receiveAttack(4, 2);
       game.receiveAttack(4, 3);
       expect(game.checkAllShipsSunk()).toEqual(true);
+    });
+    it('returns false if not all ships are sunk', () => {
+      const game = Gameboard();
+      game.buildGrid();
+      game.createShips();
+      game.placeShip(game.ships[1], 0, 0);
+      game.placeShip(game.ships[3], 4, 0);
+      game.receiveAttack(0, 0);
+      game.receiveAttack(0, 1);
+      game.receiveAttack(0, 2);
+      game.receiveAttack(4, 0);
+      game.receiveAttack(4, 2);
+      game.receiveAttack(4, 3);
+      expect(game.checkAllShipsSunk()).toEqual(false);
     });
   });
 });
