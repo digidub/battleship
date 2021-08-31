@@ -39,39 +39,4 @@ const Ship = (name, length) => {
   };
 };
 
-//   {
-//   ships: [
-//     {
-//       name: 'destroyer',
-//       length: 2,
-//       sunk: false,
-//       hits: [false, false],
-//     },
-//     {
-//       name: 'submarine',
-//       length: 3,
-//       sunk: false,
-//       hits: [false, false, false],
-//     },
-//     {
-//       name: 'cruiser',
-//       length: 3,
-//       sunk: false,
-//       hits: [false, false, false],
-//     },
-//     {
-//       name: 'battleship',
-//       length: 4,
-//       sunk: false,
-//       hits: [false, false, false, false],
-//     },
-//     {
-//       name: 'carrier',
-//       length: 5,
-//       sunk: false,
-//       hits: [false, false, false, false, false],
-//     }
-//   ],
-//   hit: function(coordinates) => {};
-// }};
 module.exports = Ship;
