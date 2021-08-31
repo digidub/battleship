@@ -25,7 +25,7 @@ const Gameboard = () => {
   };
 
   const placeShip = (ship, i, j) => {
-    if (grid[i][j] !== null) return;
+    if (grid[i][j].ship !== false) return;
     const startPosX = i;
     const startPosY = j;
     const endPosX = startPosX + ship.length;
@@ -36,8 +36,11 @@ const Gameboard = () => {
         row.map((element, indexY) => {
           if (indexX === i && indexY < endPosY && indexY >= startPosY) {
             return {
-              name: ship.name,
-              startPos,
+              ...element,
+              ship: {
+                name: ship.name,
+                startPos,
+              },
             };
           }
           return element;
@@ -49,8 +52,11 @@ const Gameboard = () => {
         row.map((element, indexY) => {
           if (indexY === j && indexX < endPosX && indexX >= startPosX) {
             return {
-              name: ship.name,
-              startPos,
+              ...element,
+              ship: {
+                name: ship.name,
+                startPos,
+              },
             };
           }
           return element;
@@ -72,6 +78,16 @@ const Gameboard = () => {
     grid[i][j] = 'x';
   };
 
+  const isShip = (ship) => {
+    if (ship?.name) return true;
+    return false;
+  };
+
+  const checkAllShipsSunk = () => {
+    if (grid.filter(isShip).length < 1) return true;
+    return false;
+  };
+
   return {
     get grid() {
       return grid;
@@ -83,6 +99,7 @@ const Gameboard = () => {
     createShips,
     placeShip,
     receiveAttack,
+    checkAllShipsSunk,
   };
 };
 
