@@ -1,6 +1,8 @@
 const Player = () => {
   const attack = (board, x, y) => {
-    board.receiveAttack(x, y);
+    const hit = board.receiveAttack(x, y);
+    if (hit === true) return true;
+    return false;
   };
 
   const randomAttackCoordinates = () => Math.floor(Math.random() * 10);
@@ -9,7 +11,6 @@ const Player = () => {
     const x = randomAttackCoordinates();
     const y = randomAttackCoordinates();
     if (board.grid[x][y].hit === true) {
-      console.log(`hit already placed at ${x}${y}`);
       aiAttack(board);
     }
     attack(board, x, y);
@@ -22,4 +23,4 @@ const Player = () => {
   };
 };
 
-module.exports = player;
+module.exports = Player;
