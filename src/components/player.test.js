@@ -4,7 +4,6 @@ const Gameboard = require('./gameboard');
 describe('Player tests', () => {
   describe('player interaction', () => {
     it('players can hit each others boards', () => {
-      const playerOne = Player();
       const playerTwo = Player();
       const playerOneBoard = Gameboard();
       playerOneBoard.buildGrid();
@@ -19,7 +18,6 @@ describe('Player tests', () => {
   });
   describe('artificial intelligence', () => {
     it('places a random hit on the board', () => {
-      const playerOne = Player();
       const playerTwo = Player();
       const playerOneBoard = Gameboard();
       playerOneBoard.buildGrid();
