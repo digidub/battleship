@@ -39,9 +39,9 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(ship, 0, 0);
       expect(game.grid[0]).toEqual([
-        { name: ship.name, index: 0 },
-        { name: ship.name, index: 1 },
-        { name: ship.name, index: 2 },
+        { name: ship.name, startPos: '00' },
+        { name: ship.name, startPos: '00' },
+        { name: ship.name, startPos: '00' },
         null,
         null,
         null,
@@ -56,7 +56,18 @@ describe('Gameboard', () => {
       const ship = Ship('small', 2);
       game.buildGrid();
       game.placeShip(ship, 0, 8);
-      expect(game.grid[0]).toEqual([null, null, null, null, null, null, null, null, { name: ship.name, index: 0 }, { name: ship.name, index: 1 }]);
+      expect(game.grid[0]).toEqual([
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        { name: ship.name, startPos: '08' },
+        { name: ship.name, startPos: '08' },
+      ]);
     });
     it('places multiple horizontal ships', () => {
       const game = Gameboard();
@@ -76,13 +87,13 @@ describe('Gameboard', () => {
         null,
         null,
         null,
-        { name: shipOne.name, index: 0 },
-        { name: shipOne.name, index: 1 },
+        { name: shipOne.name, startPos: '08' },
+        { name: shipOne.name, startPos: '08' },
       ]);
       expect(game.grid[4]).toEqual([
-        { name: shipTwo.name, index: 0 },
-        { name: shipTwo.name, index: 1 },
-        { name: shipTwo.name, index: 2 },
+        { name: shipTwo.name, startPos: '40' },
+        { name: shipTwo.name, startPos: '40' },
+        { name: shipTwo.name, startPos: '40' },
         null,
         null,
         null,
@@ -96,10 +107,10 @@ describe('Gameboard', () => {
         null,
         null,
         null,
-        { name: shipThree.name, index: 0 },
-        { name: shipThree.name, index: 1 },
-        { name: shipThree.name, index: 2 },
-        { name: shipThree.name, index: 3 },
+        { name: shipThree.name, startPos: '84' },
+        { name: shipThree.name, startPos: '84' },
+        { name: shipThree.name, startPos: '84' },
+        { name: shipThree.name, startPos: '84' },
         null,
         null,
       ]);
@@ -110,9 +121,9 @@ describe('Gameboard', () => {
       ship.switchOrientation();
       game.buildGrid();
       game.placeShip(ship, 0, 0);
-      expect(game.grid[0]).toEqual([{ name: ship.name, index: 0 }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual([{ name: ship.name, index: 1 }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[2]).toEqual([{ name: ship.name, index: 2 }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[2]).toEqual([{ name: ship.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
     });
     it('prevents a ship being placed over another ship', () => {
       const game = Gameboard();
@@ -122,8 +133,8 @@ describe('Gameboard', () => {
       game.buildGrid();
       game.placeShip(shipOne, 0, 0);
       game.placeShip(shipTwo, 1, 0);
-      expect(game.grid[0]).toEqual([{ name: shipOne.name, index: 0 }, null, null, null, null, null, null, null, null, null]);
-      expect(game.grid[1]).toEqual([{ name: shipOne.name, index: 1 }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([{ name: shipOne.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
+      expect(game.grid[1]).toEqual([{ name: shipOne.name, startPos: '00' }, null, null, null, null, null, null, null, null, null]);
     });
     it('marks a hit on the grid', () => {
       const game = Gameboard();
@@ -137,9 +148,32 @@ describe('Gameboard', () => {
       game.createShips();
       const ship = Ship('destroyer', 2);
       game.placeShip(ship, 0, 3);
-      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, index: 0 }, { name: ship.name, index: 1 }, null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([
+        null,
+        null,
+        null,
+        { name: ship.name, startPos: '03' },
+        { name: ship.name, startPos: '03' },
+        null,
+        null,
+        null,
+        null,
+        null,
+      ]);
       game.receiveAttack(0, 4);
-      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, index: 0 }, 'x', null, null, null, null, null]);
+      expect(game.grid[0]).toEqual([null, null, null, { name: ship.name, startPos: '03' }, 'x', null, null, null, null, null]);
+    });
+  });
+  describe('checking all ships are sunk', () => {
+    it('detects that all ships are sunk', () => {
+      const game = Gameboard();
+      game.buildGrid();
+      game.createShips();
+      game.placeShip(game.ships[1], 0, 0);
+      game.receiveAttack(0, 0);
+      game.receiveAttack(0, 1);
+      game.receiveAttack(0, 2);
+      expect(game.checkAllShipsSunk()).toEqual(true);
     });
   });
 });
