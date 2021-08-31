@@ -72,6 +72,10 @@ const Gameboard = () => {
 
   const findShipByName = (name) => ships.find((obj) => obj.name === name);
 
+  const checkShipHit = (i, j) => {
+    if (grid[i][j].ship !== false && grid[i][j].hit === true) return true;
+  };
+
   const receiveAttack = (i, j) => {
     if (grid[i][j].ship !== false && grid[i][j].hit !== false) {
       const shipObj = grid[i][j].ship;
@@ -90,6 +94,8 @@ const Gameboard = () => {
       })
     );
     grid = newGrid;
+    if (checkShipHit(i, j)) return true;
+    return false;
   };
 
   const checkAllShipsSunk = () => {
