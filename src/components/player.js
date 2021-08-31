@@ -1,5 +1,11 @@
-const Gameboard = require('./gameboard');
+const player = () => {
+  const attack = (board, x, y) => {
+    board.receiveAttack(x, y);
+  };
 
-const player = () => {};
+  return {
+    attack,
+  };
+};
 
 module.exports = player;
