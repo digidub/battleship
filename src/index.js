@@ -1,15 +1,17 @@
-const Gameboard = require('./components/gameboard');
-const Player = require('./components/player');
-const GameController = require('./components/gamecontroller');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-const playerTwo = Player(true);
-const playerOneBoard = Gameboard();
-playerOneBoard.buildGrid();
-playerOneBoard.createShips();
-const { x, y, hit } = playerTwo.attack(playerOneBoard, 0, 0);
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 
-// playerOneBoard.placeShip(playerOneBoard.ships[0], 0, 0);
-// for (let i = 0; i < 10; i += 1) {
-//   playerOne.aiAttack(playerTwoBoard);
-// }
-// console.log(playerTwoBoard.grid);
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
