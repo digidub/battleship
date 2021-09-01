@@ -77,7 +77,7 @@ const Gameboard = () => {
   };
 
   const receiveAttack = (i, j) => {
-    if (grid[i][j].ship !== false && grid[i][j].hit !== false) {
+    if (grid[i][j].ship !== false && grid[i][j].hit === false) {
       const shipObj = grid[i][j].ship;
       const hitShip = findShipByName(shipObj.name);
       hitShip.hit(shipObj.index);
