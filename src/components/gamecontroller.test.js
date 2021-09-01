@@ -41,4 +41,7 @@ describe('Game Control', () => {
       expect(GameController.playerTwoBoard.ships[4].length).toEqual(5);
     });
   });
+  describe('game flow', () => {
+    it('changes turn on each attack', () => {});
+  });
 });
