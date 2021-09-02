@@ -3,7 +3,7 @@
 
 const Ship = (name, length) => {
   let sunk = false;
-  let orientation = 'horizontal';
+  let horizontal = true;
 
   const hits = Array(length).fill(false);
 
@@ -16,8 +16,7 @@ const Ship = (name, length) => {
   };
 
   const switchOrientation = () => {
-    if (orientation === 'horizontal') orientation = 'vertical';
-    else orientation = 'horizontal';
+    return (horizontal = !horizontal);
   };
 
   return {
@@ -33,8 +32,8 @@ const Ship = (name, length) => {
     get hits() {
       return hits;
     },
-    get orientation() {
-      return orientation;
+    get horizontal() {
+      return horizontal;
     },
   };
 };

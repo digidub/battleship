@@ -6,7 +6,7 @@ test('produces a basic ship object', () => {
     expect.objectContaining({
       name: 'shippy',
       length: 3,
-      orientation: 'horizontal',
+      horizontal: true,
       sunk: false,
       hits: [false, false, false],
     })
@@ -18,7 +18,7 @@ test('produces a longer ship object', () => {
     expect.objectContaining({
       name: 'longerShip',
       length: 5,
-      orientation: 'horizontal',
+      horizontal: true,
       sunk: false,
       hits: [false, false, false, false, false],
     })
@@ -64,13 +64,13 @@ describe('ship orientation', () => {
     it('sets horizontal to vertical', () => {
       const shipOne = Ship('testShip', 2);
       shipOne.switchOrientation();
-      expect(shipOne.orientation).toEqual('vertical');
+      expect(shipOne.horizontal).toEqual(false);
     });
     it('sets horizontal to vertical back to horizontal', () => {
       const shipOne = Ship('testShip', 2);
       shipOne.switchOrientation();
       shipOne.switchOrientation();
-      expect(shipOne.orientation).toEqual('horizontal');
+      expect(shipOne.horizontal).toEqual(true);
     });
   });
 });
