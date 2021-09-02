@@ -1,6 +1,8 @@
 // factory function to produce ships. Ships are objects
 // that include their length, where they have been hit, and whether or not they've been sunk
 
+const randomCoordinates = require('./randomCoordinates');
+
 const Ship = (name, length) => {
   let sunk = false;
   let horizontal = true;
@@ -19,13 +21,20 @@ const Ship = (name, length) => {
     return (horizontal = !horizontal);
   };
 
+  const randomOrientation = () => {
+    const x = randomCoordinates();
+    for (let i = 0; i < x; i += 1) {
+      switchOrientation();
+    }
+  };
+
   return {
     name,
     length,
     hit,
     sink,
     switchOrientation,
-    // get values using getters
+    randomOrientation,
     get sunk() {
       return sunk;
     },
