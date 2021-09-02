@@ -1,15 +1,11 @@
+const randomAttackCoordinates = require('./randomCoordinates');
+
 const Player = (boolean) => {
   const isAI = boolean;
 
   const placeHit = (board, x, y) => {
     const checkHit = board.receiveAttack(x, y);
     return { x, y, checkHit };
-  };
-
-  const randomAttackCoordinates = () => {
-    const x = Math.floor(Math.random() * 10);
-    const y = Math.floor(Math.random() * 10);
-    return { x, y };
   };
 
   const aiAttack = (board) => {
