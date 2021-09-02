@@ -3,20 +3,11 @@ const Player = require('./player');
 
 const GameController = (() => {
   const playerOne = Player();
-  const playerTwo = Player();
-
-  const playerOneBoard = Gameboard();
-  const playerTwoBoard = Gameboard();
-
-  playerOneBoard.buildGrid();
-  playerTwoBoard.buildGrid();
-
-  playerOneBoard.createShips();
-  playerTwoBoard.createShips();
+  const playerTwo = Player(true);
 
   let playerOneTurn = true;
 
-  // const changeTurn = (player) => {
+  // const changeTurn = () => {
   //     if (n )
 
   // };
@@ -27,12 +18,6 @@ const GameController = (() => {
     },
     get playerTwo() {
       return playerTwo;
-    },
-    get playerOneBoard() {
-      return playerOneBoard;
-    },
-    get playerTwoBoard() {
-      return playerTwoBoard;
     },
   };
 })();
