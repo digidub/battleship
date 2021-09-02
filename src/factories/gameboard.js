@@ -22,7 +22,7 @@ const Gameboard = () => {
     }
   };
 
-  const createShips = () => {
+  const buildShips = () => {
     ships = shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
   };
 
@@ -32,6 +32,7 @@ const Gameboard = () => {
       y = fitShipToGrid(ship.length, y);
       placeShip(ship, x, y);
     });
+    console.log(grid);
   };
 
   const fitShipToGrid = (shipLength, startPosition) => {
@@ -51,7 +52,7 @@ const Gameboard = () => {
     const endPosX = startPosX + ship.length;
     const endPosY = startPosY + ship.length;
     const startPos = `${i}${j}`;
-    if (ship.orientation === 'horizontal') {
+    if (ship.horizontal === true) {
       const newGrid = grid.map((row, indexX) =>
         row.map((element, indexY) => {
           if (indexX === i && indexY < endPosY && indexY >= startPosY) {
@@ -126,6 +127,9 @@ const Gameboard = () => {
     return true;
   };
 
+  buildGrid();
+  buildShips();
+
   return {
     get grid() {
       return grid;
@@ -134,7 +138,7 @@ const Gameboard = () => {
       return ships;
     },
     buildGrid,
-    createShips,
+    buildShips,
     randomShipPlacement,
     placeShip,
     receiveAttack,
