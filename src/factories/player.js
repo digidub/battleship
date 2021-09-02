@@ -1,7 +1,9 @@
-const randomAttackCoordinates = require('./randomCoordinates');
+const Gameboard = require('./gameboard');
+const randomCoordinates = require('./randomCoordinates');
 
 const Player = (boolean) => {
   const isAI = boolean;
+  const board = Gameboard();
 
   const placeHit = (board, x, y) => {
     const checkHit = board.receiveAttack(x, y);
@@ -9,7 +11,7 @@ const Player = (boolean) => {
   };
 
   const aiAttack = (board) => {
-    const { x, y } = randomAttackCoordinates();
+    const { x, y } = randomCoordinates();
     if (board.grid[x][y].hit === true) {
       aiAttack(board);
     }
@@ -28,6 +30,9 @@ const Player = (boolean) => {
   };
 
   return {
+    get board() {
+      return board;
+    },
     attack,
   };
 };
