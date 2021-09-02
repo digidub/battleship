@@ -28,9 +28,18 @@ const Gameboard = () => {
 
   const randomShipPlacement = () => {
     ships.forEach((ship) => {
-      const { x, y } = randomCoordinates();
+      let { x, y } = randomCoordinates();
+      y = fitShipToGrid(ship.length, y);
       placeShip(ship, x, y);
     });
+  };
+
+  const fitShipToGrid = (shipLength, startPosition) => {
+    if (startPosition + shipLength > 9) {
+      startPosition = 9 - shipLength;
+      return startPosition;
+    }
+    return startPosition;
   };
 
   const placeShip = (ship, i, j) => {
@@ -126,6 +135,7 @@ const Gameboard = () => {
     },
     buildGrid,
     createShips,
+    randomShipPlacement,
     placeShip,
     receiveAttack,
     checkAllShipsSunk,
