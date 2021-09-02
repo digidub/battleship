@@ -19,7 +19,7 @@ describe('Gameboard', () => {
   describe('ship creation', () => {
     it('creates ships with correct name and length', () => {
       const game = Gameboard();
-      game.createShips();
+      game.buildShips();
       expect(game.ships[0].name).toEqual('destroyer');
       expect(game.ships[1].name).toEqual('submarine');
       expect(game.ships[2].name).toEqual('cruiser');
@@ -211,7 +211,7 @@ describe('Gameboard', () => {
     it('marks a hit on a ship', () => {
       const game = Gameboard();
       game.buildGrid();
-      game.createShips();
+      game.buildShips();
       const ship = Ship('destroyer', 2);
       game.placeShip(ship, 0, 3);
       expect(game.grid[0]).toEqual([
@@ -245,7 +245,7 @@ describe('Gameboard', () => {
     it('detects that all ships are sunk', () => {
       const game = Gameboard();
       game.buildGrid();
-      game.createShips();
+      game.buildShips();
       game.placeShip(game.ships[1], 0, 0);
       game.placeShip(game.ships[3], 4, 0);
       game.receiveAttack(0, 0);
@@ -260,7 +260,7 @@ describe('Gameboard', () => {
     it('returns false if not all ships are sunk', () => {
       const game = Gameboard();
       game.buildGrid();
-      game.createShips();
+      game.buildShips();
       game.placeShip(game.ships[1], 0, 0);
       game.placeShip(game.ships[3], 4, 0);
       game.receiveAttack(0, 0);

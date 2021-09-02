@@ -9,8 +9,8 @@ describe('Player tests', () => {
       playerOneBoard.buildGrid();
       const playerTwoBoard = Gameboard();
       playerTwoBoard.buildGrid();
-      playerOneBoard.createShips();
-      playerTwoBoard.createShips();
+      playerOneBoard.buildShips();
+      playerTwoBoard.buildShips();
       playerOneBoard.placeShip(playerOneBoard.ships[0], 0, 0);
       playerTwo.attack(playerOneBoard, 0, 0);
       expect(playerOneBoard.grid[0][0]).toStrictEqual({
@@ -24,7 +24,7 @@ describe('Player tests', () => {
       const playerTwo = Player(true);
       const playerOneBoard = Gameboard();
       playerOneBoard.buildGrid();
-      playerOneBoard.createShips();
+      playerOneBoard.buildShips();
       const { x, y } = playerTwo.attack(playerOneBoard, 0, 0);
       expect(playerOneBoard.grid[x][y].hit).toStrictEqual(true);
     });
