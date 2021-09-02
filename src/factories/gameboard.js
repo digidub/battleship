@@ -1,4 +1,5 @@
 const Ship = require('./ship');
+const randomCoordinates = require('./randomCoordinates');
 
 const Gameboard = () => {
   let grid = [];
@@ -25,10 +26,17 @@ const Gameboard = () => {
     ships = shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
   };
 
+  const randomShipPlacement = () => {
+    ships.forEach((ship) => {
+      const { x, y } = randomCoordinates();
+      placeShip(ship, x, y);
+    });
+  };
+
   const placeShip = (ship, i, j) => {
     if (grid[i][j].ship !== false) return;
-    if (i > 10) return;
-    if (j > 10) return;
+    if (i > 9) return;
+    if (j > 9) return;
     const startPosX = i;
     const startPosY = j;
     const endPosX = startPosX + ship.length;
