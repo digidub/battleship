@@ -1,22 +1,23 @@
-import logo from './logo.svg';
+import { useReducer } from 'react';
 import './App.css';
+import GridContainer from './components/GridContainer';
+const gameController = require('./factories/gamecontroller');
+
+function reducer(state, action) {}
 
 function App() {
+  const [playerOne, playerOneUpdate] = useReducer(reducer, gameController.playerOne);
+  const [playerTwo, playerTwoUpdate] = useReducer(reducer, gameController.playerOne);
+
+  console.log(playerOne);
+  console.log(playerTwo);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className='App'>
+      <header className='App-header'>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <GridContainer grid={playerOne.board.grid}></GridContainer>
       </header>
     </div>
   );
