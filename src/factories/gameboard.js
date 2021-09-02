@@ -109,8 +109,6 @@ const Gameboard = () => {
     return true;
   };
 
-  // grid.every((row) => row.every((cell) => cell.ship !== false && cell.hit === true));
-
   return {
     get grid() {
       return grid;
