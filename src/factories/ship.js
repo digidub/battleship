@@ -22,7 +22,7 @@ const Ship = (name, length) => {
   };
 
   const randomOrientation = () => {
-    const x = randomCoordinates();
+    const { x } = randomCoordinates();
     for (let i = 0; i < x; i += 1) {
       switchOrientation();
     }
