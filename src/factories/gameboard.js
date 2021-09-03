@@ -26,18 +26,36 @@ const Gameboard = () => {
     ships = shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
   };
 
-  const randomShipPlacement = () => {
-    ships.forEach((ship) => {
-      ship.randomOrientation();
-      let { x, y } = randomCoordinates();
+  const validateShipPlacement = (ship) => {
+    let illegalPlacement = true;
+    let coordinates = { x: 0, y: 0 };
+    while (illegalPlacement) {
+      coordinates = randomCoordinates();
       if (ship.horizontal === true) {
-        y = fitShipToGrid(ship.length, y);
+        coordinates.y = fitShipToGrid(ship.length, coordinates.y);
       } else {
-        x = fitShipToGrid(ship.length, x);
+        coordinates.x = fitShipToGrid(ship.length, coordinates.x);
       }
-      placeShip(ship, x, y);
-    });
-    console.log(grid);
+      illegalPlacement = checkForShipClash(ship.length, ship.horizontal, coordinates.x, coordinates.y, ship.name);
+    }
+    return coordinates;
+  };
+
+  const checkForShipClash = (shipLength, horizontal, startX, startY, shipName) => {
+    if (horizontal) {
+      for (let i = 0; i < shipLength; i += 1) {
+        if (grid[startX][startY + i].ship) {
+          return true;
+        }
+      }
+      return false;
+    }
+    for (let i = 0; i < shipLength; i += 1) {
+      if (grid[startX + i][startY].ship) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const fitShipToGrid = (shipLength, startPosition) => {
@@ -46,6 +64,14 @@ const Gameboard = () => {
       return startPosition;
     }
     return startPosition;
+  };
+
+  const randomShipPlacement = () => {
+    ships.forEach((ship) => {
+      ship.randomOrientation();
+      const { x, y } = validateShipPlacement(ship);
+      placeShip(ship, x, y);
+    });
   };
 
   const placeShip = (ship, i, j) => {
