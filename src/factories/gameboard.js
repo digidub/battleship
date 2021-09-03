@@ -28,8 +28,13 @@ const Gameboard = () => {
 
   const randomShipPlacement = () => {
     ships.forEach((ship) => {
+      ship.randomOrientation();
       let { x, y } = randomCoordinates();
-      y = fitShipToGrid(ship.length, y);
+      if (ship.horizontal === true) {
+        y = fitShipToGrid(ship.length, y);
+      } else {
+        x = fitShipToGrid(ship.length, x);
+      }
       placeShip(ship, x, y);
     });
     console.log(grid);
