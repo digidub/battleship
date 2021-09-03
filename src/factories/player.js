@@ -4,6 +4,7 @@ const randomCoordinates = require('./randomCoordinates');
 const Player = (boolean) => {
   const isAI = boolean;
   const board = Gameboard();
+  if (isAI) board.randomShipPlacement();
 
   const placeHit = (board, x, y) => {
     const checkHit = board.receiveAttack(x, y);
