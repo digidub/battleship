@@ -74,49 +74,30 @@ const Gameboard = () => {
     });
   };
 
+  const placeHorizontal = (row, column, ship, grid) =>
+    grid.map((r, rowIndex) =>
+      r.map((c, columnIndex) =>
+        rowIndex === row && columnIndex >= column && columnIndex < column + ship.length
+          ? { ...column, ship: { name: ship.name, index: columnIndex - column } }
+          : c
+      )
+    );
+
+  const placeVertical = (row, column, ship, grid) =>
+    grid.map((r, rowIndex) =>
+      r.map((c, columnIndex) =>
+        columnIndex === column && rowIndex >= row && rowIndex < row + ship.length
+          ? { ...column, ship: { name: ship.name, index: rowIndex - row } }
+          : c
+      )
+    );
+
   const placeShip = (ship, i, j) => {
-    if (grid[i][j].ship !== false) return;
-    if (i > 9) return;
-    if (j > 9) return;
-    const startPosX = i;
-    const startPosY = j;
-    const endPosX = startPosX + ship.length;
-    const endPosY = startPosY + ship.length;
-    const startPos = `${i}${j}`;
-    if (ship.horizontal === true) {
-      const newGrid = grid.map((row, indexX) =>
-        row.map((element, indexY) => {
-          if (indexX === i && indexY < endPosY && indexY >= startPosY) {
-            return {
-              ...element,
-              ship: {
-                name: ship.name,
-                startPos,
-              },
-            };
-          }
-          return element;
-        })
-      );
-      grid = newGrid;
-    } else {
-      const newGrid = grid.map((row, indexX) =>
-        row.map((element, indexY) => {
-          if (indexY === j && indexX < endPosX && indexX >= startPosX) {
-            return {
-              ...element,
-              ship: {
-                name: ship.name,
-                startPos,
-              },
-            };
-          }
-          return element;
-        })
-      );
-      grid = newGrid;
-    }
-    return grid;
+    let newGrid = [];
+    if (ship.horizontal) newGrid = placeHorizontal(i, j, ship, grid);
+    else newGrid = placeVertical(i, j, ship, grid);
+    grid = newGrid;
+    return;
   };
 
   const findShipByName = (name) => ships.find((obj) => obj.name === name);
@@ -126,6 +107,7 @@ const Gameboard = () => {
   };
 
   const receiveAttack = (i, j) => {
+    console.log('hi');
     if (grid[i][j].ship !== false && grid[i][j].hit === false) {
       const shipObj = grid[i][j].ship;
       const hitShip = findShipByName(shipObj.name);
@@ -143,6 +125,7 @@ const Gameboard = () => {
       })
     );
     grid = newGrid;
+    console.log(grid);
     if (checkShipHit(i, j)) return true;
     return false;
   };
