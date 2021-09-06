@@ -25,12 +25,9 @@ function App() {
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <h1>Battleships</h1>
-      </header>
-      <GridContext.Provier value={{ playerOne, playerOneUpdate }}>
+      <GridContext.Provider value={{ playerOne, playerOneUpdate }}>
         <GridContainer clickFunction={handleClick} grid={playerOne}></GridContainer>
-      </GridContext.Provier>
+      </GridContext.Provider>
     </div>
   );
 }
