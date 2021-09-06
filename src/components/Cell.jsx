@@ -1,7 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const Card = (props) => {
-  return <div></div>;
+const Cell = (props) => {
+  return <BattleCell onClick={props.clickFunction}>{props.children}</BattleCell>;
 };
 
-export default Card;
+export default Cell;
+
+const BattleCell = styled.div`
+  border: 1px solid black;
+`;

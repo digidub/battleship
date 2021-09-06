@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import Cell from './Cell';
 
 const GridContainer = (props) => {
-  const playerGrid = props.grid.map((row) => {
-    return row.map((cell) => {
-      return <div>{cell.ship ? <p>{cell.ship.name}</p> : <p>blank</p>}</div>;
+  const playerGrid = props.grid.map((row, indexX) => {
+    return row.map((cell, indexY) => {
+      return (
+        <Cell key={`${indexX}${indexY}`} clickFunction={props.clickFunction}>
+          {cell.ship ? <p>{cell.ship.name}</p> : <p>·</p>}
+        </Cell>
+      );
     });
   });
 
