@@ -1,5 +1,3 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const context = React.createContext();
-
-function hitReducer() {}
+export const GridContext = createContext();
