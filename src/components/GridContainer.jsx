@@ -6,7 +6,7 @@ const GridContainer = (props) => {
   const playerGrid = props.grid.map((row, indexX) => {
     return row.map((cell, indexY) => {
       return (
-        <Cell key={`${indexX}${indexY}`} clickFunction={props.clickFunction}>
+        <Cell key={`${indexX}${indexY}`} coordinates={`${indexX}${indexY}`} clickFunction={props.clickFunction}>
           {cell.ship ? <p>{cell.ship.name}</p> : <p>·</p>}
         </Cell>
       );
