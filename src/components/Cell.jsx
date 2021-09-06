@@ -9,13 +9,25 @@ const Cell = (props) => {
     console.log(e);
     playerOneUpdate({
       type: 'hit',
+      x: Number(e.target.id[0]),
+      y: Number(e.target.id[1]),
     });
   };
 
+  //   onClick={props.clickFunction}
+
   return (
-    <BattleCell id={props.coordinates} onClick={props.clickFunction} ship={props.ship}>
-      {props.children}
-    </BattleCell>
+    <BattleCell
+      id={props.coordinates}
+      onClick={(e) => {
+        playerOneUpdate({
+          type: 'hit',
+          x: Number(e.target.id[0]),
+          y: Number(e.target.id[1]),
+        });
+      }}
+      ship={props.ship}
+    />
   );
 };
 
