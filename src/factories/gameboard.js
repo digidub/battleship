@@ -75,20 +75,16 @@ const Gameboard = () => {
   };
 
   const placeHorizontal = (row, column, ship, grid) =>
-    grid.map((r, rowIndex) =>
-      r.map((c, columnIndex) =>
-        rowIndex === row && columnIndex >= column && columnIndex < column + ship.length
-          ? { ...column, ship: { name: ship.name, index: columnIndex - column } }
-          : c
+    grid.map((r, rIndex) =>
+      r.map((c, cIndex) =>
+        rIndex === row && cIndex >= column && cIndex < column + ship.length ? { ...c, ship: { name: ship.name, index: cIndex - column } } : c
       )
     );
 
   const placeVertical = (row, column, ship, grid) =>
-    grid.map((r, rowIndex) =>
-      r.map((c, columnIndex) =>
-        columnIndex === column && rowIndex >= row && rowIndex < row + ship.length
-          ? { ...column, ship: { name: ship.name, index: rowIndex - row } }
-          : c
+    grid.map((r, rIndex) =>
+      r.map((c, cIndex) =>
+        cIndex === column && rIndex >= row && rIndex < row + ship.length ? { ...c, ship: { name: ship.name, index: rIndex - row } } : c
       )
     );
 
