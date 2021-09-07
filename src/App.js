@@ -11,8 +11,9 @@ function App() {
   const handleClick = (e) => {
     const x = Number(e.target.id[0]);
     const y = Number(e.target.id[1]);
-    gameController.playerTwo.attack(gameController.playerOne.board, x, y);
-    setPlayerOneGridState(gameController.playerOne.board.grid);
+    if (playerTwoGridState[x][y].hit) return;
+    gameController.playerOne.attack(gameController.playerTwo.board, x, y);
+    setPlayerTwoGridState(gameController.playerTwo.board.grid);
   };
 
   return (
