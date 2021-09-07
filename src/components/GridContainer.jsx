@@ -11,7 +11,7 @@ const GridContainer = (props) => {
           coordinates={`${indexX}${indexY}`}
           clickFunction={props.clickFunction}
           ship={cell.ship ? true : false}
-          hitShip={cell.ship && cell.hit ? true : false}
+          hit={cell.hit ? true : false}
         />
       );
     });
