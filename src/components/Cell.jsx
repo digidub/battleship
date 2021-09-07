@@ -1,33 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { GridContext } from '../context';
 
 const Cell = (props) => {
-  const { playerOneUpdate } = useContext(GridContext);
-
-  const handleClick = (e) => {
-    console.log(e);
-    playerOneUpdate({
-      type: 'hit',
-      x: Number(e.target.id[0]),
-      y: Number(e.target.id[1]),
-    });
-  };
-
-  //   onClick={props.clickFunction}
-
   return (
-    <BattleCell
-      id={props.coordinates}
-      onClick={(e) => {
-        playerOneUpdate({
-          type: 'hit',
-          x: Number(e.target.id[0]),
-          y: Number(e.target.id[1]),
-        });
-      }}
-      ship={props.ship}
-    />
+    <BattleCell id={props.coordinates} onClick={props.clickFunction} ship={props.ship}>
+      {props.hitShip ? 'hit' : ''}
+    </BattleCell>
   );
 };
 
