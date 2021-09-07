@@ -3,18 +3,9 @@ import './App.css';
 import GridContainer from './components/GridContainer';
 const gameController = require('./factories/gamecontroller');
 
-// function reducer(state, action) {
-//   console.log(action);
-//   switch (action.type) {
-//     case 'hit':
-//       return (state = gameController.playerTwo.attack(gameController.playerOne.board, action.x, action.y));
-//     default:
-//       throw new Error('woops');
-//   }
-// }
-
 function App() {
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
+  const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
 
   const handleClick = (e) => {
     const x = Number(e.target.id[0]);
@@ -25,7 +16,7 @@ function App() {
 
   return (
     <div className='App'>
-      <GridContainer clickFunction={handleClick} grid={playerOneGridState}></GridContainer>
+      <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
     </div>
   );
 }
