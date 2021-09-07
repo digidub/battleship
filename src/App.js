@@ -1,33 +1,31 @@
-import { useReducer } from 'react';
+import { useState } from 'react';
 import './App.css';
 import GridContainer from './components/GridContainer';
-import { GridContext } from './context';
 const gameController = require('./factories/gamecontroller');
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'hit':
-      return {
-        ...state,
-      };
-    default:
-      throw new Error('woops');
-  }
-}
+// function reducer(state, action) {
+//   console.log(action);
+//   switch (action.type) {
+//     case 'hit':
+//       return (state = gameController.playerTwo.attack(gameController.playerOne.board, action.x, action.y));
+//     default:
+//       throw new Error('woops');
+//   }
+// }
 
 function App() {
-  const [playerOne, playerOneUpdate] = useReducer(reducer, gameController.playerOne.board.grid);
-  // const [playerTwo, playerTwoUpdate] = useReducer(reducer, gameController.playerTwo.board.grid);
+  const [state, setState] = useState(gameController.playerOne.board.grid);
 
   const handleClick = (e) => {
-    console.log(e);
+    const x = Number(e.target.id[0]);
+    const y = Number(e.target.id[1]);
+    gameController.playerTwo.attack(gameController.playerOne.board, x, y);
+    setState(gameController.playerOne.board.grid);
   };
 
   return (
     <div className='App'>
-      <GridContext.Provider value={{ playerOne, playerOneUpdate }}>
-        <GridContainer clickFunction={handleClick} grid={playerOne}></GridContainer>
-      </GridContext.Provider>
+      <GridContainer clickFunction={handleClick} grid={state}></GridContainer>
     </div>
   );
 }
