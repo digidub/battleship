@@ -14,18 +14,18 @@ const gameController = require('./factories/gamecontroller');
 // }
 
 function App() {
-  const [state, setState] = useState(gameController.playerOne.board.grid);
+  const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
 
   const handleClick = (e) => {
     const x = Number(e.target.id[0]);
     const y = Number(e.target.id[1]);
     gameController.playerTwo.attack(gameController.playerOne.board, x, y);
-    setState(gameController.playerOne.board.grid);
+    setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
   return (
     <div className='App'>
-      <GridContainer clickFunction={handleClick} grid={state}></GridContainer>
+      <GridContainer clickFunction={handleClick} grid={playerOneGridState}></GridContainer>
     </div>
   );
 }
