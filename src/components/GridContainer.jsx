@@ -23,7 +23,8 @@ const GridContainer = (props) => {
 export default GridContainer;
 
 const GridBox = styled.div`
-  width: 100%;
+  width: 400px;
+  height: 400px;
   display: grid;
   grid-template-columns: repeat(10, 10%);
 `;

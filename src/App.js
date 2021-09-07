@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
 const gameController = require('./factories/gamecontroller');
@@ -16,9 +17,18 @@ function App() {
 
   return (
     <div className='App'>
-      <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
+      <GridDisplay>
+        <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
+        <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
+      </GridDisplay>
     </div>
   );
 }
 
 export default App;
+
+const GridDisplay = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`;

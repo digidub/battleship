@@ -16,7 +16,7 @@ const handleCellColour = (props) => {
 
 const BattleCell = styled.div`
   border: 1px solid black;
-  height: 90px;
+  height: auto;
   background: ${(props) => handleCellColour(props)};
   &:hover {
     cursor: crosshair;
