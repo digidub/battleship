@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
+import PlacementGrid from './components/PlacementGrid';
 const gameController = require('./factories/gamecontroller');
+
+function reducer(action, state) {}
 
 function App() {
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
   const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
+  const [shipsToPlace, setShipsToPlace] = useReducer(reducer, gameController.playerOne.board.shipNamesAndLengths);
+  console.log(shipsToPlace);
+  const [shipCoords, setShipCoords] = useState();
 
   const hitLogic = (x, y) => {
     const board = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
@@ -26,9 +32,17 @@ function App() {
     setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
+  const handleMouseOver = (e) => {
+    console.log(e);
+    const x = Number(e.target.id[0]);
+    const y = Number(e.target.id[1]);
+    setShipCoords((shipCoords) => [x, y]);
+  };
+
   return (
     <div className='App'>
       <GridDisplay>
+        <PlacementGrid grid={playerOneGridState} ships={shipsToPlace} mouseOver={handleMouseOver} coords={shipCoords} />
         <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
         <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
       </GridDisplay>
