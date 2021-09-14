@@ -1,6 +1,7 @@
 const randomCoordinates = require('./randomCoordinates');
 
 const Ship = (name, length) => {
+  let placed = false;
   let sunk = false;
   let horizontal = true;
 
@@ -32,6 +33,9 @@ const Ship = (name, length) => {
     sink,
     switchOrientation,
     randomOrientation,
+    get placed() {
+      return placed;
+    },
     get sunk() {
       return sunk;
     },
