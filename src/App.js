@@ -20,18 +20,22 @@ function App() {
 
   const handleShipPickUp = (e) => {
     const selectedShip = shipsToPlace.filter((obj) => obj.name === e.target.parentNode.id);
-    setPlacingShip((placingShip) => selectedShip);
+    setPlacingShip((placingShip) => selectedShip[0]);
   };
 
   const handlePlaceShip = (e) => {
     if (e.target.id >= '00' && e.target.id <= '99') {
       console.log(isHovering);
     }
+    const row = Number(e.target.id[0]);
+    const column = Number(e.target.id[1]);
+    gameController.playerOne.board.placeUserShip(placingShip, row, column);
+    setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
   const handleHover = (e) => {
     if (placingShip) {
-      const ship = placingShip[0];
+      const ship = placingShip;
       const coordinates = [];
       for (let i = 0; i < ship.length; i += 1) {
         const row = e.target.id[0];
@@ -74,6 +78,7 @@ function App() {
           handleClick={handlePlaceShip}
         />
         <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
+        <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
         <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
       </GridDisplay>
     </div>
