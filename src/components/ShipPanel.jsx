@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const ShipPanel = ({ ships, handleClick }) => {
   const shipDiagram = (length) => {
-    return [...Array(length)].map((item) => {
-      return <ShipCell key={item} />;
+    return [...Array(length)].map((item, index) => {
+      return <ShipCell key={index} />;
     });
   };
 
