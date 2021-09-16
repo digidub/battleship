@@ -6,13 +6,26 @@ import PlacementGrid from './components/PlacementGrid';
 import ShipPanel from './components/ShipPanel';
 const gameController = require('./factories/gamecontroller');
 
+const reducer = (ships, action) => {
+  console.log(ships);
+  console.log(action);
+  switch (action.type) {
+    case 'remove':
+      return ships.filter((ship) => ship.name !== action.name);
+    default:
+      throw new Error('oops');
+  }
+};
+
 function App() {
   //board states
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
   const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
 
+  const ships = gameController;
+
   //placing ship states
-  const [shipsToPlace, setShipsToPlace] = useState(gameController.playerOne.board.ships);
+  const [shipsToPlace, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(gameController.playerOne.board.ships)));
   const [placingShip, setPlacingShip] = useState();
   const [isHovering, setIsHovering] = useState();
 
@@ -24,15 +37,19 @@ function App() {
   };
 
   const handlePlaceShip = (e) => {
+    if (!placingShip) return;
     if (e.target.id >= '00' && e.target.id <= '99') {
       console.log(isHovering);
     }
     const row = Number(e.target.id[0]);
     const column = Number(e.target.id[1]);
     let successfulPlacement = gameController.playerOne.board.placeUserShip(placingShip, row, column);
+    console.log(successfulPlacement);
     if (successfulPlacement) {
       setPlayerOneGridState(gameController.playerOne.board.grid);
+      dispatch({ type: 'remove', name: placingShip.name });
       setPlacingShip(null);
+      console.log(shipsToPlace);
     }
   };
 
