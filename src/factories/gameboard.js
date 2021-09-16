@@ -26,22 +26,33 @@ const Gameboard = () => {
     ships = shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
   };
 
-  const validateShipPlacement = (ship) => {
-    let illegalPlacement = true;
-    let coordinates = { x: 0, y: 0 };
-    while (illegalPlacement) {
-      coordinates = randomCoordinates();
-      if (ship.horizontal === true) {
-        coordinates.y = fitShipToGrid(ship.length, coordinates.y);
-      } else {
-        coordinates.x = fitShipToGrid(ship.length, coordinates.x);
+  const validateShipPlacement = (ship, random = false, row, column) => {
+    if (random) {
+      let illegalPlacement = true;
+      let coordinates = { x: 0, y: 0 };
+      while (illegalPlacement) {
+        coordinates = randomCoordinates();
+        if (ship.horizontal === true) {
+          coordinates.y = fitShipToGrid(ship.length, coordinates.y);
+        } else {
+          coordinates.x = fitShipToGrid(ship.length, coordinates.x);
+        }
+        illegalPlacement = checkForShipClash(ship.length, ship.horizontal, coordinates.x, coordinates.y);
       }
-      illegalPlacement = checkForShipClash(ship.length, ship.horizontal, coordinates.x, coordinates.y, ship.name);
+      return coordinates;
     }
+    // validation for user selected placement
+    let illegalPlacement = true;
+    let coordinates = { row, column };
+    if (ship.horizontal === true) {
+      coordinates.column = fitShipToGrid(ship.length, coordinates.column);
+    }
+    illegalPlacement = checkForShipClash(ship.length, ship.horizontal, coordinates.row, coordinates.column);
+    if (illegalPlacement) return;
     return coordinates;
   };
 
-  const checkForShipClash = (shipLength, horizontal, startX, startY, shipName) => {
+  const checkForShipClash = (shipLength, horizontal, startX, startY) => {
     if (horizontal) {
       for (let i = 0; i < shipLength; i += 1) {
         if (grid[startX][startY + i].ship) {
@@ -60,39 +71,52 @@ const Gameboard = () => {
 
   const fitShipToGrid = (shipLength, startPosition) => {
     if (startPosition + shipLength > 9) {
-      startPosition = 9 - shipLength;
+      startPosition = 9 - shipLength + 1;
       return startPosition;
     }
     return startPosition;
   };
 
   const randomShipPlacement = () => {
+    let random = true;
     ships.forEach((ship) => {
       ship.randomOrientation();
-      const { x, y } = validateShipPlacement(ship);
+      const { x, y } = validateShipPlacement(ship, random);
       placeShip(ship, x, y);
     });
   };
 
-  const placeHorizontal = (row, column, ship, grid) =>
+  const placeHorizontal = (row, column, ship) =>
     grid.map((r, rIndex) =>
       r.map((c, cIndex) =>
         rIndex === row && cIndex >= column && cIndex < column + ship.length ? { ...c, ship: { name: ship.name, index: cIndex - column } } : c
       )
     );
 
-  const placeVertical = (row, column, ship, grid) =>
+  const placeVertical = (row, column, ship) =>
     grid.map((r, rIndex) =>
       r.map((c, cIndex) =>
         cIndex === column && rIndex >= row && rIndex < row + ship.length ? { ...c, ship: { name: ship.name, index: rIndex - row } } : c
       )
     );
 
-  const placeShip = (ship, i, j) => {
+  const placeShip = (ship, row, column) => {
     let newGrid = [];
-    if (ship.horizontal) newGrid = placeHorizontal(i, j, ship, grid);
-    else newGrid = placeVertical(i, j, ship, grid);
+    if (ship.horizontal) newGrid = placeHorizontal(row, column, ship);
+    else newGrid = placeVertical(row, column, ship);
     grid = newGrid;
+    console.log(grid);
+    return;
+  };
+
+  const placeUserShip = (ship, row, column) => {
+    let newGrid = [];
+    let coordinates = validateShipPlacement(ship, false, row, column);
+    console.log(coordinates);
+    if (!coordinates) return;
+    if (ship.horizontal) newGrid = placeHorizontal(coordinates.row, coordinates.column, ship);
+    grid = newGrid;
+    console.log(grid);
     return;
   };
 
@@ -103,7 +127,7 @@ const Gameboard = () => {
   };
 
   const receiveAttack = (i, j) => {
-    console.log('hi');
+    if (grid[i][j].hit) return;
     if (grid[i][j].ship !== false && grid[i][j].hit === false) {
       const shipObj = grid[i][j].ship;
       const hitShip = findShipByName(shipObj.name);
@@ -121,7 +145,6 @@ const Gameboard = () => {
       })
     );
     grid = newGrid;
-    console.log(grid);
     if (checkShipHit(i, j)) return true;
     return false;
   };
@@ -141,6 +164,7 @@ const Gameboard = () => {
   buildShips();
 
   return {
+    shipNamesAndLengths,
     get grid() {
       return grid;
     },
@@ -151,6 +175,7 @@ const Gameboard = () => {
     buildShips,
     randomShipPlacement,
     placeShip,
+    placeUserShip,
     receiveAttack,
     checkAllShipsSunk,
   };
