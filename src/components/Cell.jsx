@@ -16,13 +16,6 @@ const Cell = (props) => {
 
 export default Cell;
 
-// const handleCellColour = (props) => {
-//   if (props.ship && props.hit) return 'red';
-//   if (props.ship) return 'pink';
-//   if (props.hit) return 'grey';
-//   return 'white';
-// };
-
 const BattleCell = styled.div`
   border: 1px solid black;
   height: auto;
