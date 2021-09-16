@@ -105,7 +105,6 @@ const Gameboard = () => {
     if (ship.horizontal) newGrid = placeHorizontal(row, column, ship);
     else newGrid = placeVertical(row, column, ship);
     grid = newGrid;
-    console.log(grid);
     return;
   };
 
@@ -117,7 +116,7 @@ const Gameboard = () => {
     if (ship.horizontal) newGrid = placeHorizontal(coordinates.row, coordinates.column, ship);
     grid = newGrid;
     console.log(grid);
-    return;
+    return true;
   };
 
   const findShipByName = (name) => ships.find((obj) => obj.name === name);
