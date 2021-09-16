@@ -29,8 +29,11 @@ function App() {
     }
     const row = Number(e.target.id[0]);
     const column = Number(e.target.id[1]);
-    gameController.playerOne.board.placeUserShip(placingShip, row, column);
-    setPlayerOneGridState(gameController.playerOne.board.grid);
+    let successfulPlacement = gameController.playerOne.board.placeUserShip(placingShip, row, column);
+    if (successfulPlacement) {
+      setPlayerOneGridState(gameController.playerOne.board.grid);
+      setPlacingShip(null);
+    }
   };
 
   const handleHover = (e) => {

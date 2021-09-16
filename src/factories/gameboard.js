@@ -113,7 +113,7 @@ const Gameboard = () => {
     let newGrid = [];
     let coordinates = validateShipPlacement(ship, false, row, column);
     console.log(coordinates);
-    if (!coordinates) return;
+    if (!coordinates) return false;
     if (ship.horizontal) newGrid = placeHorizontal(coordinates.row, coordinates.column, ship);
     grid = newGrid;
     console.log(grid);
