@@ -9,7 +9,7 @@ const GridContainer = (props) => {
         <Cell
           key={`${indexX}${indexY}`}
           coordinates={`${indexX}${indexY}`}
-          clickFunction={props.clickFunction}
+          handleClick={props.clickFunction}
           ship={cell.ship ? true : false}
           hit={cell.hit ? true : false}
         />
@@ -22,7 +22,7 @@ const GridContainer = (props) => {
 
 export default GridContainer;
 
-const GridBox = styled.div`
+export const GridBox = styled.div`
   width: 400px;
   height: 400px;
   display: grid;
