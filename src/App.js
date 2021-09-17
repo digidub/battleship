@@ -7,8 +7,6 @@ import ShipPanel from './components/ShipPanel';
 const gameController = require('./factories/gamecontroller');
 
 const reducer = (ships, action) => {
-  console.log(ships);
-  console.log(action);
   switch (action.type) {
     case 'remove':
       return ships.filter((ship) => ship.name !== action.name);
@@ -22,10 +20,8 @@ function App() {
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
   const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
 
-  const ships = gameController;
-
   //placing ship states
-  const [shipsToPlace, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(gameController.playerOne.board.ships)));
+  const [shipsToPlace, dispatch] = useReducer(reducer, gameController.playerOne.board.shipsToPlace);
   const [placingShip, setPlacingShip] = useState();
   const [isHovering, setIsHovering] = useState();
 
@@ -37,36 +33,55 @@ function App() {
   };
 
   const handlePlaceShip = (e) => {
+    console.log(e);
     if (!placingShip) return;
     if (e.target.id >= '00' && e.target.id <= '99') {
-      console.log(isHovering);
-    }
-    const row = Number(e.target.id[0]);
-    const column = Number(e.target.id[1]);
-    let successfulPlacement = gameController.playerOne.board.placeUserShip(placingShip, row, column);
-    console.log(successfulPlacement);
-    if (successfulPlacement) {
-      setPlayerOneGridState(gameController.playerOne.board.grid);
-      dispatch({ type: 'remove', name: placingShip.name });
-      setPlacingShip(null);
-      console.log(shipsToPlace);
+      const row = Number(e.target.id[0]);
+      const column = Number(e.target.id[1]);
+      let successfulPlacement = gameController.playerOne.board.placeUserShip(placingShip, row, column);
+      if (successfulPlacement) {
+        setPlayerOneGridState(gameController.playerOne.board.grid);
+        dispatch({ type: 'remove', name: placingShip.name });
+        setPlacingShip(null);
+      }
     }
   };
 
   const handleHover = (e) => {
     if (placingShip) {
-      const ship = placingShip;
       const coordinates = [];
-      for (let i = 0; i < ship.length; i += 1) {
-        const row = e.target.id[0];
-        const rowLimit = parseInt(`${row}9`);
-        let cell = parseInt(e.target.id);
-        if (cell + ship.length > rowLimit) cell = rowLimit - ship.length + 1;
-        let column = cell + i;
-        if (column < 10) column = '0' + column;
-        coordinates.push(column.toString());
+      if (placingShip.horizontal) {
+        for (let i = 0; i < placingShip.length; i += 1) {
+          const row = e.target.id[0];
+          const rowLimit = parseInt(`${row}9`);
+          let cell = parseInt(e.target.id);
+          if (cell + placingShip.length > rowLimit) cell = rowLimit - placingShip.length + 1;
+          let column = cell + i;
+          if (column < 10) column = '0' + column;
+          coordinates.push(column.toString());
+        }
+        setIsHovering((isHovering) => coordinates);
+      } else {
+        for (let i = 0; i < placingShip.length; i += 1) {
+          const column = e.target.id[1];
+          const columnLimit = parseInt(`9${column}`);
+          let cell = parseInt(e.target.id);
+          if (cell + placingShip.length * 10 > columnLimit) cell = columnLimit - placingShip.length * 10 + 10;
+          let row = cell + i * 10;
+          if (row < 10) row = '0' + row;
+          coordinates.push(row.toString());
+        }
+        setIsHovering((isHovering) => coordinates);
       }
-      setIsHovering((isHovering) => coordinates);
+    }
+  };
+
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    if (!placingShip) return;
+    if (e.target.id >= '00' && e.target.id <= '99') {
+      console.log(placingShip);
+      placingShip.rotate();
     }
   };
 
@@ -96,6 +111,7 @@ function App() {
           isHovering={isHovering}
           handleHover={handleHover}
           handleClick={handlePlaceShip}
+          handleRightClick={handleRightClick}
         />
         <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
         <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
