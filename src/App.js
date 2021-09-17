@@ -93,19 +93,13 @@ function App() {
     }
   };
 
-  const hitLogic = (x, y) => {
-    const board = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
-    if (board.checkHit) return true;
-    return false;
-  };
-
   const handleClick = (e) => {
     const x = Number(e.target.id[0]);
     const y = Number(e.target.id[1]);
     if (playerTwoGridState[x][y].hit) return;
-    let checkHit = hitLogic(x, y);
+    let attack = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
     setPlayerTwoGridState(gameController.playerTwo.board.grid);
-    if (checkHit) return;
+    if (attack.checkHit) return;
     else gameController.changeTurn();
     setPlayerOneGridState(gameController.playerOne.board.grid);
   };
