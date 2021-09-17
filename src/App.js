@@ -1,4 +1,5 @@
 import { useState, useReducer, useEffect } from 'react';
+import { Fragment } from 'react/cjs/react.production.min';
 import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
@@ -10,6 +11,8 @@ const reducer = (ships, action) => {
   switch (action.type) {
     case 'remove':
       return ships.filter((ship) => ship.name !== action.name);
+    case 'random':
+      return {};
     default:
       throw new Error('oops');
   }
@@ -109,18 +112,29 @@ function App() {
     setAllShipsPlaced(false);
   };
 
+  const playerOneRandomPlacement = () => {
+    gameController.playerOne.board.clearShipsFromBoard();
+    gameController.playerOne.board.randomShipPlacement();
+    setPlayerOneGridState(gameController.playerOne.board.grid);
+    dispatch({ type: 'random' });
+    setAllShipsPlaced(true);
+  };
+
   return (
     <div className='App'>
       <GridDisplay>
         {!gameStarted && (
-          <PlacementGrid
-            grid={playerOneGridState}
-            placingShip={placingShip}
-            isHovering={isHovering}
-            handleHover={handleHover}
-            handleClick={handlePlaceShip}
-            handleRightClick={handleRightClick}
-          />
+          <Fragment>
+            <button onClick={playerOneRandomPlacement}>Random Placement</button>
+            <PlacementGrid
+              grid={playerOneGridState}
+              placingShip={placingShip}
+              isHovering={isHovering}
+              handleHover={handleHover}
+              handleClick={handlePlaceShip}
+              handleRightClick={handleRightClick}
+            />
+          </Fragment>
         )}
         {allShipsPlaced && <button onClick={startGame}>start</button>}
         <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
