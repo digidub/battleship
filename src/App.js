@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
@@ -25,7 +25,15 @@ function App() {
   const [placingShip, setPlacingShip] = useState();
   const [isHovering, setIsHovering] = useState();
 
+  //game state
+  const [allShipsPlaced, setAllShipsPlaced] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
+
   const [shipCoords, setShipCoords] = useState();
+
+  useEffect(() => {
+    if (shipsToPlace.length === 0) setAllShipsPlaced(true);
+  }, [shipsToPlace]);
 
   const handleShipPickUp = (e) => {
     const selectedShip = shipsToPlace.filter((obj) => obj.name === e.target.parentNode.id);
@@ -43,6 +51,7 @@ function App() {
         setPlayerOneGridState(gameController.playerOne.board.grid);
         dispatch({ type: 'remove', name: placingShip.name });
         setPlacingShip(null);
+        setIsHovering(false);
       }
     }
   };
@@ -50,29 +59,28 @@ function App() {
   const handleHover = (e) => {
     if (placingShip) {
       const coordinates = [];
+      let cell = parseInt(e.target.id);
+
       if (placingShip.horizontal) {
         for (let i = 0; i < placingShip.length; i += 1) {
           const row = e.target.id[0];
           const rowLimit = parseInt(`${row}9`);
-          let cell = parseInt(e.target.id);
           if (cell + placingShip.length > rowLimit) cell = rowLimit - placingShip.length + 1;
           let column = cell + i;
           if (column < 10) column = '0' + column;
           coordinates.push(column.toString());
         }
-        setIsHovering((isHovering) => coordinates);
       } else {
         for (let i = 0; i < placingShip.length; i += 1) {
           const column = e.target.id[1];
           const columnLimit = parseInt(`9${column}`);
-          let cell = parseInt(e.target.id);
           if (cell + placingShip.length * 10 > columnLimit) cell = columnLimit - placingShip.length * 10 + 10;
           let row = cell + i * 10;
           if (row < 10) row = '0' + row;
           coordinates.push(row.toString());
         }
-        setIsHovering((isHovering) => coordinates);
       }
+      setIsHovering((isHovering) => coordinates);
     }
   };
 
@@ -102,19 +110,27 @@ function App() {
     setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
+  const startGame = () => {
+    setGameStarted(true);
+    setAllShipsPlaced(false);
+  };
+
   return (
     <div className='App'>
       <GridDisplay>
-        <PlacementGrid
-          grid={playerOneGridState}
-          placingShip={placingShip}
-          isHovering={isHovering}
-          handleHover={handleHover}
-          handleClick={handlePlaceShip}
-          handleRightClick={handleRightClick}
-        />
+        {!gameStarted && (
+          <PlacementGrid
+            grid={playerOneGridState}
+            placingShip={placingShip}
+            isHovering={isHovering}
+            handleHover={handleHover}
+            handleClick={handlePlaceShip}
+            handleRightClick={handleRightClick}
+          />
+        )}
+        {allShipsPlaced && <button onClick={startGame}>start</button>}
         <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
-        <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
+        {gameStarted && <GridContainer clickFunction={handleClick} grid={playerOneGridState} />}
         <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
       </GridDisplay>
     </div>
