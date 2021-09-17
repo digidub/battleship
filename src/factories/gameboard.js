@@ -23,9 +23,9 @@ const Gameboard = () => {
     }
   };
 
-  const buildShips = () => {
-    return shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
-  };
+  const buildShips = () => shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
+
+  const clearShipsFromBoard = () => buildGrid();
 
   const validateShipPlacement = (ship, random = false, row, column) => {
     if (random) {
@@ -176,6 +176,7 @@ const Gameboard = () => {
     },
     buildGrid,
     buildShips,
+    clearShipsFromBoard,
     randomShipPlacement,
     placeShip,
     placeUserShip,
