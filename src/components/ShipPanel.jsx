@@ -8,18 +8,24 @@ const ShipPanel = ({ ships, handleClick }) => {
     });
   };
 
-  const shipPanel = ships.map((ship) => {
-    return (
-      <div key={ship.name}>
-        <div>{ship.name}</div>
-        <ShipBox id={ship.name} onClick={handleClick}>
-          {shipDiagram(ship.length)}
-        </ShipBox>
-      </div>
-    );
-  });
+  function displayShips() {
+    let shipPanel;
+    if (ships.length > 0) {
+      shipPanel = ships.map((ship) => {
+        return (
+          <div key={ship.name}>
+            <div>{ship.name}</div>
+            <ShipBox id={ship.name} onClick={handleClick}>
+              {shipDiagram(ship.length)}
+            </ShipBox>
+          </div>
+        );
+      });
+    }
+    return shipPanel;
+  }
 
-  return <div>{shipPanel}</div>;
+  return <div>{displayShips()}</div>;
 };
 
 export default ShipPanel;
