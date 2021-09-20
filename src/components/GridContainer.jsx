@@ -12,6 +12,7 @@ const GridContainer = (props) => {
           handleClick={props.clickFunction}
           ship={cell.ship ? true : false}
           hit={cell.hit ? true : false}
+          ai={props.ai}
         />
       );
     });

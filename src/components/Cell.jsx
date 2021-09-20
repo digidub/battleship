@@ -1,25 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Cell = (props) => {
+const Cell = ({ coordinates, handleHover, handleClick, handleRightClick, isHovering, ship, hit, ai }) => {
   return (
     <BattleCell
-      id={props.coordinates}
-      onMouseEnter={props.handleHover}
-      onClick={props.handleClick}
-      isHovering={props.isHovering}
-      ship={props.ship}
-      hit={props.hit}
+      id={coordinates}
+      onMouseEnter={handleHover}
+      onClick={handleClick}
+      isHovering={isHovering}
+      ship={ship}
+      hit={hit}
+      onContextMenu={handleRightClick}
+      ai={ai}
     />
   );
 };
 
 export default Cell;
 
+const handleCellColour = (props) => {
+  if (props.isHovering && props.isHovering.includes(props.id)) return 'blue';
+  if (props.ship && props.hit) return 'red';
+  if (!props.ai) {
+    if (props.ship) return 'pink';
+  }
+  if (props.hit) return 'grey';
+
+  return 'white';
+};
+
 const BattleCell = styled.div`
   border: 1px solid black;
   height: auto;
-  background: ${(props) => (props.isHovering && props.isHovering.includes(props.id) ? 'pink' : 'white')};
+  background: ${(props) => handleCellColour(props)};
   &:hover {
     cursor: crosshair;
   }
