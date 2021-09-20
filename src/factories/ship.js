@@ -17,10 +17,6 @@ const Ship = (name, length) => {
     console.log(sunk);
   };
 
-  // const checkSunk = () => {
-  //   if (!hits.includes(false))
-  // };
-
   const rotate = () => {
     horizontal = !horizontal;
   };
@@ -36,7 +32,6 @@ const Ship = (name, length) => {
     name,
     length,
     hit,
-    // checkSunk,
     rotate,
     randomOrientation,
     get sunk() {
