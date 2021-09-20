@@ -144,19 +144,14 @@ const Gameboard = () => {
       })
     );
     grid = newGrid;
+    console.log(checkAllShipsSunk());
     if (checkShipHit(i, j)) return true;
     return false;
   };
 
   const checkAllShipsSunk = () => {
-    for (let i = 0; i < grid.length; i += 1) {
-      for (let j = 0; j < grid.length; j += 1) {
-        if (grid[i][j].ship !== false && grid[i][j].hit !== true) {
-          return false;
-        }
-      }
-    }
-    return true;
+    if (ships.every((ship) => ship.sunk === true)) return true;
+    return false;
   };
 
   buildGrid();
