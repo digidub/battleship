@@ -31,8 +31,8 @@ function App() {
   //game state
   const [allShipsPlaced, setAllShipsPlaced] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
-
-  const [shipCoords, setShipCoords] = useState();
+  const [gameOver, setGameOver] = useState(false);
+  const [gameWinner, setGameWinner] = useState();
 
   useEffect(() => {
     if (shipsToPlace.length === 0) setAllShipsPlaced(true);
@@ -44,7 +44,6 @@ function App() {
   };
 
   const handlePlaceShip = (e) => {
-    console.log(e);
     if (!placingShip) return;
     if (e.target.id >= '00' && e.target.id <= '99') {
       const row = Number(e.target.id[0]);
@@ -103,9 +102,10 @@ function App() {
     let attack = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
     setPlayerTwoGridState(gameController.playerTwo.board.grid);
     if (attack.checkHit) {
-      gameController.winCondition();
+      checkforWinner();
       return;
     } else gameController.changeTurn();
+    checkforWinner();
     setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
@@ -114,12 +114,27 @@ function App() {
     setAllShipsPlaced(false);
   };
 
+  const checkforWinner = () => {
+    let winner = gameController.winCondition();
+    if (winner) {
+      setGameOver(true);
+      setGameWinner(`${winner} wins!`);
+    }
+  };
+
   const playerOneRandomPlacement = () => {
     gameController.playerOne.board.clearShipsFromBoard();
     gameController.playerOne.board.randomShipPlacement();
     setPlayerOneGridState(gameController.playerOne.board.grid);
     dispatch({ type: 'random' });
     setAllShipsPlaced(true);
+    setIsHovering(false);
+    setPlacingShip(null);
+  };
+
+  const handlePlayAgain = () => {
+    setGameStarted(false);
+    setGameOver(false);
   };
 
   return (
@@ -143,10 +158,16 @@ function App() {
         {gameStarted && (
           <Fragment>
             <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
-            <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
+            <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} />
           </Fragment>
         )}
       </GridDisplay>
+      {gameOver && (
+        <div>
+          <p>{gameWinner}</p>
+          <button onClick={handlePlayAgain}>Play again</button>
+        </div>
+      )}
     </div>
   );
 }
