@@ -14,14 +14,22 @@ const GameController = (() => {
       while (hit) {
         let didHit = playerTwo.attack(playerOne.board);
         if (!didHit.checkHit) hit = false;
+        winCondition();
       }
       changeTurn();
     }
   };
 
-  const winCondition = (player) => {
-    if (player.board.grid.checkAllShipsSunk) return true;
-    return false;
+  const winCondition = () => {
+    if (playerOneTurn) {
+      if (playerTwo.board.checkAllShipsSunk()) {
+        console.log('Congrats! You Win!');
+      }
+    } else {
+      if (playerOne.board.checkAllShipsSunk()) {
+        console.log('You Lose!');
+      }
+    }
   };
 
   return {
@@ -32,6 +40,7 @@ const GameController = (() => {
       return playerTwo;
     },
     changeTurn,
+    winCondition,
   };
 })();
 
