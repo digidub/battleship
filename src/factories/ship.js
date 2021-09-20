@@ -8,13 +8,11 @@ const Ship = (name, length) => {
 
   const hit = (position) => {
     if (position <= hits.length) hits[position] = true;
-    console.log(hits);
     sinkShip();
   };
 
   const sinkShip = () => {
     if (hits.every((hit) => hit === true)) sunk = true;
-    console.log(sunk);
   };
 
   const rotate = () => {
