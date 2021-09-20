@@ -1,7 +1,6 @@
 const randomCoordinates = require('./randomCoordinates');
 
 const Ship = (name, length) => {
-  let placed = false;
   let sunk = false;
   let horizontal = true;
 
@@ -9,20 +8,27 @@ const Ship = (name, length) => {
 
   const hit = (position) => {
     if (position <= hits.length) hits[position] = true;
+    console.log(hits);
+    sinkShip();
   };
 
-  const sink = () => {
-    if (!hits.includes(false)) sunk = true;
+  const sinkShip = () => {
+    if (hits.every((hit) => hit === true)) sunk = true;
+    console.log(sunk);
   };
 
-  const switchOrientation = () => {
-    return (horizontal = !horizontal);
+  // const checkSunk = () => {
+  //   if (!hits.includes(false))
+  // };
+
+  const rotate = () => {
+    horizontal = !horizontal;
   };
 
   const randomOrientation = () => {
     const { x } = randomCoordinates();
     for (let i = 0; i < x; i += 1) {
-      switchOrientation();
+      rotate();
     }
   };
 
@@ -30,12 +36,9 @@ const Ship = (name, length) => {
     name,
     length,
     hit,
-    sink,
-    switchOrientation,
+    // checkSunk,
+    rotate,
     randomOrientation,
-    get placed() {
-      return placed;
-    },
     get sunk() {
       return sunk;
     },
