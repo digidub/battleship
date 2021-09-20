@@ -102,8 +102,10 @@ function App() {
     if (playerTwoGridState[x][y].hit) return;
     let attack = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
     setPlayerTwoGridState(gameController.playerTwo.board.grid);
-    if (attack.checkHit) return;
-    else gameController.changeTurn();
+    if (attack.checkHit) {
+      gameController.winCondition();
+      return;
+    } else gameController.changeTurn();
     setPlayerOneGridState(gameController.playerOne.board.grid);
   };
 
@@ -138,8 +140,12 @@ function App() {
         )}
         {allShipsPlaced && <button onClick={startGame}>start</button>}
         <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
-        {gameStarted && <GridContainer clickFunction={handleClick} grid={playerOneGridState} />}
-        <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
+        {gameStarted && (
+          <Fragment>
+            <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
+            <GridContainer clickFunction={handleClick} grid={playerTwoGridState} />
+          </Fragment>
+        )}
       </GridDisplay>
     </div>
   );
