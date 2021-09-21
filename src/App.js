@@ -1,5 +1,4 @@
-import { useState, useReducer, useEffect } from 'react';
-import { Fragment } from 'react/cjs/react.production.min';
+import { useState, useReducer, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
@@ -8,33 +7,32 @@ import PlacementGrid from './components/PlacementGrid';
 import ShipPanel from './components/ShipPanel';
 const gameController = require('./factories/gamecontroller');
 
+// reducer function for managing ships that player is still to place on the board
 const reducer = (ships, action) => {
   switch (action.type) {
     case 'placed ship':
       return ships.filter((ship) => ship.name !== action.name);
-    case 'random':
-      return {};
     default:
       throw new Error('oops');
   }
 };
 
 function App() {
-  //board states
+  // board states
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
   const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
 
-  //state management for placing player's ships
+  // state management for placing player's ships
   const [showShipPanel, setShowShipPanel] = useState(true);
   const [shipsToPlace, dispatch] = useReducer(reducer, gameController.playerOne.board.shipsToPlace);
-  const [placingShip, setPlacingShip] = useState();
-  const [isHovering, setIsHovering] = useState();
+  const [placingShip, setPlacingShip] = useState(null);
+  const [isHovering, setIsHovering] = useState(null);
 
-  //game state
+  // game state
   const [allShipsPlaced, setAllShipsPlaced] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [gameWinner, setGameWinner] = useState();
+  const [gameWinner, setGameWinner] = useState(null);
 
   useEffect(() => {
     if (shipsToPlace.length === 0) setAllShipsPlaced(true);
@@ -64,7 +62,6 @@ function App() {
     if (placingShip) {
       const coordinates = [];
       let cell = parseInt(e.target.id);
-
       if (placingShip.horizontal) {
         for (let i = 0; i < placingShip.length; i += 1) {
           const row = e.target.id[0];
@@ -127,7 +124,6 @@ function App() {
     gameController.playerOne.board.clearShipsFromBoard();
     gameController.playerOne.board.randomShipPlacement();
     setPlayerOneGridState(gameController.playerOne.board.grid);
-    // dispatch({ type: 'random' });
     setAllShipsPlaced(true);
     setShowShipPanel(false);
     setIsHovering(false);
@@ -147,24 +143,27 @@ function App() {
       <Header />
       {!gameStarted && (
         <Fragment>
+          <PlayerOneGridDisplay>
+            <PlacementGrid
+              grid={playerOneGridState}
+              placingShip={placingShip}
+              isHovering={isHovering}
+              handleHover={handleHover}
+              handleClick={handlePlaceShip}
+              handleRightClick={handleRightClick}
+            />
+            {showShipPanel && <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />}
+          </PlayerOneGridDisplay>
           <button onClick={playerOneRandomPlacement}>Random Placement</button>
-          <PlacementGrid
-            grid={playerOneGridState}
-            placingShip={placingShip}
-            isHovering={isHovering}
-            handleHover={handleHover}
-            handleClick={handlePlaceShip}
-            handleRightClick={handleRightClick}
-          />
         </Fragment>
       )}
       {allShipsPlaced && <button onClick={startGame}>start</button>}
-      {showShipPanel && <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />}
+
       {gameStarted && (
-        <GridDisplay>
-          <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
-          <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} />
-        </GridDisplay>
+        <TwoPlayerGridDisplay>
+          <GridContainer grid={playerOneGridState} playerTitle={'Your board'} />
+          <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} playerTitle={"Enemy's board"} />
+        </TwoPlayerGridDisplay>
       )}
       {gameOver && (
         <div>
@@ -178,7 +177,13 @@ function App() {
 
 export default App;
 
-const GridDisplay = styled.div`
+const PlayerOneGridDisplay = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
+const TwoPlayerGridDisplay = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
