@@ -18,7 +18,12 @@ const GridContainer = (props) => {
     });
   });
 
-  return <GridBox>{playerGrid}</GridBox>;
+  return (
+    <div>
+      <h2>{props.playerTitle}</h2>
+      <GridBox>{playerGrid}</GridBox>
+    </div>
+  );
 };
 
 export default GridContainer;
