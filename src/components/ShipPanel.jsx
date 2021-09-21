@@ -25,7 +25,13 @@ const ShipPanel = ({ ships, handleClick }) => {
     return shipPanel;
   }
 
-  return <div>{displayShips()}</div>;
+  return (
+    <div>
+      <h2>Ships</h2>
+      <p>select a ship by clicking on it. Rotate the ship by right clicking in side the grid. Click again to place.</p>
+      {displayShips()}
+    </div>
+  );
 };
 
 export default ShipPanel;
