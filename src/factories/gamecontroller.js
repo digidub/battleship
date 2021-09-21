@@ -4,6 +4,7 @@ const GameController = (() => {
   const playerOne = Player();
   const playerTwo = Player(true);
   let gameOver = false;
+  let winner = null;
 
   let playerOneTurn = true;
 
@@ -14,22 +15,35 @@ const GameController = (() => {
       while (hit) {
         let didHit = playerTwo.attack(playerOne.board);
         if (!didHit.checkHit) hit = false;
-        winCondition();
+        if (winCondition()) hit = false; //simulate move to next round
       }
       changeTurn();
     }
   };
 
+  const restartGame = () => {
+    playerOne.board.clearShipsFromBoard();
+    playerTwo.board.clearShipsFromBoard();
+    playerTwo.board.randomShipPlacement();
+  };
+
   const winCondition = () => {
     if (playerOneTurn) {
       if (playerTwo.board.checkAllShipsSunk()) {
-        console.log('Congrats! You Win!');
+        gameOver = true;
+        winner = 'player one';
+        restartGame();
+        return winner;
       }
     } else {
       if (playerOne.board.checkAllShipsSunk()) {
-        console.log('You Lose!');
+        gameOver = true;
+        winner = 'player two';
+        restartGame();
+        return winner;
       }
     }
+    return false;
   };
 
   return {
