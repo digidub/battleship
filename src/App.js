@@ -3,13 +3,14 @@ import { Fragment } from 'react/cjs/react.production.min';
 import styled from 'styled-components';
 import './App.css';
 import GridContainer from './components/GridContainer';
+import Header from './components/Header';
 import PlacementGrid from './components/PlacementGrid';
 import ShipPanel from './components/ShipPanel';
 const gameController = require('./factories/gamecontroller');
 
 const reducer = (ships, action) => {
   switch (action.type) {
-    case 'remove':
+    case 'placed ship':
       return ships.filter((ship) => ship.name !== action.name);
     case 'random':
       return {};
@@ -23,7 +24,8 @@ function App() {
   const [playerOneGridState, setPlayerOneGridState] = useState(gameController.playerOne.board.grid);
   const [playerTwoGridState, setPlayerTwoGridState] = useState(gameController.playerTwo.board.grid);
 
-  //placing ship states
+  //state management for placing player's ships
+  const [showShipPanel, setShowShipPanel] = useState(true);
   const [shipsToPlace, dispatch] = useReducer(reducer, gameController.playerOne.board.shipsToPlace);
   const [placingShip, setPlacingShip] = useState();
   const [isHovering, setIsHovering] = useState();
@@ -51,7 +53,7 @@ function App() {
       let successfulPlacement = gameController.playerOne.board.placeUserShip(placingShip, row, column);
       if (successfulPlacement) {
         setPlayerOneGridState(gameController.playerOne.board.grid);
-        dispatch({ type: 'remove', name: placingShip.name });
+        dispatch({ type: 'placed ship', name: placingShip.name });
         setPlacingShip(null);
         setIsHovering(false);
       }
@@ -90,7 +92,6 @@ function App() {
     e.preventDefault();
     if (!placingShip) return;
     if (e.target.id >= '00' && e.target.id <= '99') {
-      console.log(placingShip);
       placingShip.rotate();
     }
   };
@@ -98,7 +99,7 @@ function App() {
   const handleClick = (e) => {
     const x = Number(e.target.id[0]);
     const y = Number(e.target.id[1]);
-    if (playerTwoGridState[x][y].hit) return;
+    if (playerTwoGridState[x][y].hit) return; // check hit has not already been placed in cell
     let attack = gameController.playerOne.attack(gameController.playerTwo.board, x, y);
     setPlayerTwoGridState(gameController.playerTwo.board.grid);
     if (attack.checkHit) {
@@ -126,8 +127,9 @@ function App() {
     gameController.playerOne.board.clearShipsFromBoard();
     gameController.playerOne.board.randomShipPlacement();
     setPlayerOneGridState(gameController.playerOne.board.grid);
-    dispatch({ type: 'random' });
+    // dispatch({ type: 'random' });
     setAllShipsPlaced(true);
+    setShowShipPanel(false);
     setIsHovering(false);
     setPlacingShip(null);
   };
@@ -135,33 +137,35 @@ function App() {
   const handlePlayAgain = () => {
     setGameStarted(false);
     setGameOver(false);
+    setPlayerOneGridState(gameController.playerOne.board.grid);
+    setPlayerTwoGridState(gameController.playerTwo.board.grid);
+    setShowShipPanel(true);
   };
 
   return (
     <div className='App'>
-      <GridDisplay>
-        {!gameStarted && (
-          <Fragment>
-            <button onClick={playerOneRandomPlacement}>Random Placement</button>
-            <PlacementGrid
-              grid={playerOneGridState}
-              placingShip={placingShip}
-              isHovering={isHovering}
-              handleHover={handleHover}
-              handleClick={handlePlaceShip}
-              handleRightClick={handleRightClick}
-            />
-          </Fragment>
-        )}
-        {allShipsPlaced && <button onClick={startGame}>start</button>}
-        <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />
-        {gameStarted && (
-          <Fragment>
-            <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
-            <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} />
-          </Fragment>
-        )}
-      </GridDisplay>
+      <Header />
+      {!gameStarted && (
+        <Fragment>
+          <button onClick={playerOneRandomPlacement}>Random Placement</button>
+          <PlacementGrid
+            grid={playerOneGridState}
+            placingShip={placingShip}
+            isHovering={isHovering}
+            handleHover={handleHover}
+            handleClick={handlePlaceShip}
+            handleRightClick={handleRightClick}
+          />
+        </Fragment>
+      )}
+      {allShipsPlaced && <button onClick={startGame}>start</button>}
+      {showShipPanel && <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />}
+      {gameStarted && (
+        <GridDisplay>
+          <GridContainer clickFunction={handleClick} grid={playerOneGridState} />
+          <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} />
+        </GridDisplay>
+      )}
       {gameOver && (
         <div>
           <p>{gameWinner}</p>
