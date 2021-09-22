@@ -33,4 +33,5 @@ export const GridBox = styled.div`
   height: 400px;
   display: grid;
   grid-template-columns: repeat(10, 10%);
+  margin: 20px;
 `;
