@@ -144,7 +144,6 @@ const Gameboard = () => {
       })
     );
     grid = newGrid;
-    console.log(checkAllShipsSunk());
     if (checkShipHit(i, j)) return true;
     return false;
   };
@@ -159,7 +158,6 @@ const Gameboard = () => {
   shipsToPlace = buildShips(shipsToPlace);
 
   return {
-    shipNamesAndLengths,
     get grid() {
       return grid;
     },
