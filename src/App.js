@@ -1,6 +1,7 @@
 import { useState, useReducer, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
 import './App.css';
+import { Button } from './components/commonStyling';
 import GridContainer from './components/GridContainer';
 import Header from './components/Header';
 import PlacementGrid from './components/PlacementGrid';
@@ -143,6 +144,8 @@ function App() {
       <Header />
       {!gameStarted && (
         <Fragment>
+          {allShipsPlaced && <Button onClick={startGame}>start</Button>}
+
           <PlayerOneGridDisplay>
             <PlacementGrid
               grid={playerOneGridState}
@@ -151,14 +154,12 @@ function App() {
               handleHover={handleHover}
               handleClick={handlePlaceShip}
               handleRightClick={handleRightClick}
+              playerOneRandomPlacement={playerOneRandomPlacement}
             />
             {showShipPanel && <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />}
           </PlayerOneGridDisplay>
-          <button onClick={playerOneRandomPlacement}>Random Placement</button>
         </Fragment>
       )}
-      {allShipsPlaced && <button onClick={startGame}>start</button>}
-
       {gameStarted && (
         <TwoPlayerGridDisplay>
           <GridContainer grid={playerOneGridState} playerTitle={'Your board'} />
@@ -168,7 +169,7 @@ function App() {
       {gameOver && (
         <div>
           <p>{gameWinner}</p>
-          <button onClick={handlePlayAgain}>Play again</button>
+          <Button onClick={handlePlayAgain}>Play again</Button>
         </div>
       )}
     </div>
@@ -180,7 +181,7 @@ export default App;
 const PlayerOneGridDisplay = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
 const TwoPlayerGridDisplay = styled.div`
