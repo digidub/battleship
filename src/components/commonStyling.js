@@ -6,7 +6,7 @@ export const Button = styled.button`
   text-decoration: none;
   background: #ffffff;
   padding: 5px;
-  border: 4px solid #494949;
+  border: 2px solid #494949;
   display: inline-block;
   transition: all 0.4s ease 0s;
   &:hover {
@@ -14,5 +14,6 @@ export const Button = styled.button`
     background: #f6b93b;
     border-color: #f6b93b;
     transition: all 0.4s ease 0s;
+    cursor: pointer;
   }
 `;
