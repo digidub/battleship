@@ -53,6 +53,9 @@ const GameController = (() => {
     get playerTwo() {
       return playerTwo;
     },
+    get gameOver() {
+      return gameOver;
+    },
     changeTurn,
     winCondition,
   };
