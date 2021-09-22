@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Button } from './commonStyling';
+import styled from 'styled-components';
 
 const Header = () => {
   const [viewInstruction, setViewInstructions] = useState(false);
@@ -9,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <Fragment>
+    <HeaderWrapper>
       <h1>Battleships</h1>
       <p>The classic battleships game from when you were a kid (or maybe you still enjoy it?)</p>
       <Button onClick={toggleInstructions}>{viewInstruction ? 'hide' : 'show'} instructions</Button>
@@ -23,8 +24,15 @@ const Header = () => {
           </p>
         </Fragment>
       )}
-    </Fragment>
+    </HeaderWrapper>
   );
 };
 
 export default Header;
+
+const HeaderWrapper = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
