@@ -20,8 +20,12 @@ const aiLogic = () => {
     hits.unshift(coordinates); // eg. 3,3
     checkNextSquares();
     //place hit on first one e.g. attack(hits[0].try[0].row, hits[0].try[0].column,)
-    //if miss, remove from try list
-    //if hit, keep going in that direction until miss, and then
+    //if miss, remove from try list e.g. hits[0].try[0].shift();
+    //if hit, keep going in that direction until miss e.g.
+
+    /* 
+    attackLine = hits[0].try[0]
+    */
 
     let nextColumnToAttack;
     if (coordinates.row === 0) {
