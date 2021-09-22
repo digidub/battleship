@@ -26,11 +26,12 @@ const handleCellColour = (props) => {
   }
   if (props.hit) return 'grey';
 
-  return 'white';
+  return '#df645f';
 };
 
 const BattleCell = styled.div`
-  border: 1px solid black;
+  border: 1px solid white;
+  border-radius: 4px;
   height: auto;
   background: ${(props) => handleCellColour(props)};
   &:hover {

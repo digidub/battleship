@@ -39,9 +39,9 @@ const ShipBox = styled.div`
 `;
 
 const ShipCell = styled.div`
-  border: 1px solid black;
+  border: 1px solid white;
   height: auto;
-  background: white;
+  background: pink;
   &:hover {
     cursor: pointer;
   }
