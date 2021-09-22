@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button } from './commonStyling';
 
-const ShipPanel = ({ ships, handleClick }) => {
+const ShipPanel = ({ ships, handleClick, playerOneRandomPlacement, startGame, allShipsPlaced }) => {
   const shipDiagram = (length) => {
     return [...Array(length)].map((item, index) => {
       return <ShipCell key={index} />;
@@ -13,22 +14,32 @@ const ShipPanel = ({ ships, handleClick }) => {
     if (ships.length > 0) {
       shipPanel = ships.map((ship) => {
         return (
-          <div key={ship.name}>
+          <ShipContainer key={ship.name}>
             <div>{ship.name}</div>
             <ShipBox id={ship.name} onClick={handleClick}>
               {shipDiagram(ship.length)}
             </ShipBox>
-          </div>
+          </ShipContainer>
         );
       });
     }
     return shipPanel;
   }
 
-  return <div>{displayShips()}</div>;
+  return (
+    <ShipPanelContainer>
+      <Button onClick={playerOneRandomPlacement}>Random Placement</Button>
+      {allShipsPlaced && <Button onClick={startGame}>Start Game</Button>}
+      {displayShips()}
+    </ShipPanelContainer>
+  );
 };
 
 export default ShipPanel;
+
+const ShipContainer = styled.div`
+  margin-bottom: 10px;
+`;
 
 const ShipBox = styled.div`
   width: 40px;
@@ -40,9 +51,16 @@ const ShipBox = styled.div`
 
 const ShipCell = styled.div`
   border: 1px solid white;
+  border-radius: 4px;
   height: auto;
   background: pink;
   &:hover {
     cursor: pointer;
   }
+`;
+
+const ShipPanelContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 `;

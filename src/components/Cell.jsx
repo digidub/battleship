@@ -19,7 +19,7 @@ const Cell = ({ coordinates, handleHover, handleClick, handleRightClick, isHover
 export default Cell;
 
 const handleCellColour = (props) => {
-  if (props.isHovering && props.isHovering.includes(props.id)) return 'blue';
+  if (props.isHovering && props.isHovering.includes(props.id)) return 'pink';
   if (props.ship && props.hit) return 'red';
   if (!props.ai) {
     if (props.ship) return 'pink';

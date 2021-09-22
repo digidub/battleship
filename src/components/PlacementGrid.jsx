@@ -1,10 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import Cell from './Cell';
-import { Button } from './commonStyling';
 import { GridBox } from './GridContainer';
 
-const PlacementGrid = ({ grid, placingShip, isHovering, handleHover, handleClick, handleRightClick, playerOneRandomPlacement }) => {
+const PlacementGrid = ({ grid, placingShip, isHovering, handleHover, handleClick, handleRightClick }) => {
   const placementGrid = grid.map((row, indexX) => {
     return row.map((cell, indexY) => {
       return (
@@ -25,7 +23,6 @@ const PlacementGrid = ({ grid, placingShip, isHovering, handleHover, handleClick
   return (
     <div>
       <GridBox>{placementGrid}</GridBox>
-      <Button onClick={playerOneRandomPlacement}>Random Placement</Button>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { useState, useReducer, useEffect, Fragment } from 'react';
 import styled from 'styled-components';
-import './App.css';
 import { Button } from './components/commonStyling';
 import GridContainer from './components/GridContainer';
 import Header from './components/Header';
@@ -13,6 +12,8 @@ const reducer = (ships, action) => {
   switch (action.type) {
     case 'placed ship':
       return ships.filter((ship) => ship.name !== action.name);
+    case 'randomly placed':
+      return {};
     default:
       throw new Error('oops');
   }
@@ -28,9 +29,9 @@ function App() {
   const [shipsToPlace, dispatch] = useReducer(reducer, gameController.playerOne.board.shipsToPlace);
   const [placingShip, setPlacingShip] = useState(null);
   const [isHovering, setIsHovering] = useState(null);
+  const [allShipsPlaced, setAllShipsPlaced] = useState(false);
 
   // game state
-  const [allShipsPlaced, setAllShipsPlaced] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [gameWinner, setGameWinner] = useState(null);
@@ -126,9 +127,9 @@ function App() {
     gameController.playerOne.board.randomShipPlacement();
     setPlayerOneGridState(gameController.playerOne.board.grid);
     setAllShipsPlaced(true);
-    setShowShipPanel(false);
     setIsHovering(false);
     setPlacingShip(null);
+    dispatch({ type: 'randomly placed' });
   };
 
   const handlePlayAgain = () => {
@@ -140,13 +141,11 @@ function App() {
   };
 
   return (
-    <div className='App'>
-      <Header />
-      {!gameStarted && (
-        <Fragment>
-          {allShipsPlaced && <Button onClick={startGame}>start</Button>}
-
-          <PlayerOneGridDisplay>
+    <PageWrapper>
+      <AppContainer>
+        <Header />
+        {!gameStarted && (
+          <PlayerOnePlacementContainer>
             <PlacementGrid
               grid={playerOneGridState}
               placingShip={placingShip}
@@ -154,38 +153,66 @@ function App() {
               handleHover={handleHover}
               handleClick={handlePlaceShip}
               handleRightClick={handleRightClick}
-              playerOneRandomPlacement={playerOneRandomPlacement}
             />
-            {showShipPanel && <ShipPanel ships={shipsToPlace} handleClick={handleShipPickUp} />}
-          </PlayerOneGridDisplay>
-        </Fragment>
-      )}
-      {gameStarted && (
-        <TwoPlayerGridDisplay>
-          <GridContainer grid={playerOneGridState} playerTitle={'Your board'} />
-          <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} playerTitle={"Enemy's board"} />
-        </TwoPlayerGridDisplay>
-      )}
-      {gameOver && (
-        <div>
-          <p>{gameWinner}</p>
-          <Button onClick={handlePlayAgain}>Play again</Button>
-        </div>
-      )}
-    </div>
+            {showShipPanel && (
+              <ShipPanel
+                ships={shipsToPlace}
+                handleClick={handleShipPickUp}
+                playerOneRandomPlacement={playerOneRandomPlacement}
+                startGame={startGame}
+                allShipsPlaced={allShipsPlaced}
+              />
+            )}
+            {/* {allShipsPlaced && <Button onClick={startGame}>start</Button>} */}
+          </PlayerOnePlacementContainer>
+        )}
+        {gameStarted && (
+          <TwoPlayerPlacementContainer>
+            <GridContainer grid={playerOneGridState} playerTitle={'Your board'} />
+            <GridContainer clickFunction={handleClick} grid={playerTwoGridState} ai={true} playerTitle={"Enemy's board"} />
+          </TwoPlayerPlacementContainer>
+        )}
+        {gameOver && (
+          <div>
+            <p>{gameWinner}</p>
+            <Button onClick={handlePlayAgain}>Play again</Button>
+          </div>
+        )}
+      </AppContainer>
+    </PageWrapper>
   );
 }
 
 export default App;
 
-const PlayerOneGridDisplay = styled.div`
+const PageWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
-const TwoPlayerGridDisplay = styled.div`
+const AppContainer = styled.div`
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PlayerOnePlacementContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 8px;
+  background: #df645f;
+  width: 800px;
+`;
+
+const TwoPlayerPlacementContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  border-radius: 8px;
+  background: #df645f;
+  width: 1200px;
 `;
