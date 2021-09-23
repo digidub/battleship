@@ -25,6 +25,8 @@ const Gameboard = () => {
 
   const buildShips = () => shipNamesAndLengths.map((obj) => Ship(obj.name, obj.length));
 
+  const resetShips = () => (ships = buildShips());
+
   const clearShipsFromBoard = () => buildGrid();
 
   const validateShipPlacement = (ship, random = false, row, column) => {
@@ -154,8 +156,8 @@ const Gameboard = () => {
   };
 
   buildGrid();
-  ships = buildShips(ships);
-  shipsToPlace = buildShips(shipsToPlace);
+  ships = buildShips();
+  shipsToPlace = buildShips();
 
   return {
     get grid() {
