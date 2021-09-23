@@ -34,6 +34,7 @@ const BattleCell = styled.div`
   border-radius: 4px;
   height: auto;
   background: ${(props) => handleCellColour(props)};
+  transition: all 0.8s ease;
   &:hover {
     cursor: crosshair;
   }
