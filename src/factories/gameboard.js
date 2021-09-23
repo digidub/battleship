@@ -1,5 +1,5 @@
-const Ship = require('./ship');
-const randomCoordinates = require('./randomCoordinates');
+import Ship from './ship';
+import randomCoordinates from './randomCoordinates';
 
 const Gameboard = () => {
   let grid = [];
@@ -181,4 +181,4 @@ const Gameboard = () => {
   };
 };
 
-module.exports = Gameboard;
+export default Gameboard;
