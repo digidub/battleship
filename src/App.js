@@ -1,11 +1,11 @@
-import { useState, useReducer, useEffect, Fragment } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from './components/commonStyling';
 import GridContainer from './components/GridContainer';
 import Header from './components/Header';
 import PlacementGrid from './components/PlacementGrid';
 import ShipPanel from './components/ShipPanel';
-const gameController = require('./factories/gamecontroller');
+import gameController from './factories/gamecontroller';
 
 // reducer function for managing ships that player is still to place on the board
 const reducer = (ships, action) => {
