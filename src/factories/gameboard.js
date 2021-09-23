@@ -171,6 +171,7 @@ const Gameboard = () => {
     },
     buildGrid,
     buildShips,
+    resetShips,
     clearShipsFromBoard,
     randomShipPlacement,
     placeShip,
