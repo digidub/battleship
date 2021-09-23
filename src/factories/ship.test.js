@@ -1,5 +1,5 @@
 /* eslint-disable comma-dangle */
-const Ship = require('./ship');
+import Ship from './ship';
 
 test('produces a basic ship object', () => {
   expect(Ship('shippy', 3)).toStrictEqual(
@@ -53,7 +53,6 @@ describe('ship sunk', () => {
       const shipOne = Ship('testShip', 2);
       shipOne.hit(0);
       shipOne.hit(1);
-      shipOne.sink();
       expect(shipOne.sunk).toEqual(true);
     });
   });
@@ -63,13 +62,13 @@ describe('ship orientation', () => {
   describe('switches orientation', () => {
     it('sets horizontal to vertical', () => {
       const shipOne = Ship('testShip', 2);
-      shipOne.switchOrientation();
+      shipOne.rotate();
       expect(shipOne.horizontal).toEqual(false);
     });
     it('sets horizontal to vertical back to horizontal', () => {
       const shipOne = Ship('testShip', 2);
-      shipOne.switchOrientation();
-      shipOne.switchOrientation();
+      shipOne.rotate();
+      shipOne.rotate();
       expect(shipOne.horizontal).toEqual(true);
     });
   });

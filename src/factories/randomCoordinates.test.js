@@ -1,4 +1,4 @@
-const randomCoordinates = require('./randomCoordinates');
+import randomCoordinates from './randomCoordinates';
 
 describe('Random coordinates', () => {
   describe('produces correct numbers', () => {

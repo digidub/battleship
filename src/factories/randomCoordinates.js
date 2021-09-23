@@ -4,4 +4,4 @@ const randomCoordinates = () => {
   return { x, y };
 };
 
-module.exports = randomCoordinates;
+export default randomCoordinates;

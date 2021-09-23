@@ -1,5 +1,5 @@
-const Gameboard = require('./gameboard');
-const randomCoordinates = require('./randomCoordinates');
+import Gameboard from './gameboard';
+import randomCoordinates from './randomCoordinates';
 
 const Player = (boolean) => {
   const isAI = boolean;
@@ -38,4 +38,4 @@ const Player = (boolean) => {
   };
 };
 
-module.exports = Player;
+export default Player;

@@ -1,4 +1,4 @@
-const GameController = require('./gamecontroller');
+import GameController from './gamecontroller';
 
 describe('Game Control', () => {
   describe('initialises game correctly', () => {

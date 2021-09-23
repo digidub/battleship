@@ -1,4 +1,4 @@
-const randomCoordinates = require('./randomCoordinates');
+import randomCoordinates from './randomCoordinates';
 
 const Ship = (name, length) => {
   let sunk = false;
@@ -44,4 +44,4 @@ const Ship = (name, length) => {
   };
 };
 
-module.exports = Ship;
+export default Ship;

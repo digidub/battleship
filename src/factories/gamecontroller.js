@@ -1,4 +1,4 @@
-const Player = require('./player');
+import Player from './player';
 
 const GameController = (() => {
   const playerOne = Player();
@@ -68,4 +68,4 @@ const GameController = (() => {
   };
 })();
 
-module.exports = GameController;
+export default GameController;
