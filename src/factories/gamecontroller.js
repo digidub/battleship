@@ -24,6 +24,8 @@ const GameController = (() => {
   const restartGame = () => {
     playerOne.board.clearShipsFromBoard();
     playerTwo.board.clearShipsFromBoard();
+    playerOne.board.resetShips();
+    playerTwo.board.resetShips();
     playerTwo.board.randomShipPlacement();
   };
 
@@ -46,6 +48,10 @@ const GameController = (() => {
     return false;
   };
 
+  const resetWinner = () => {
+    winner = null;
+  };
+
   return {
     get playerOne() {
       return playerOne;
@@ -58,6 +64,7 @@ const GameController = (() => {
     },
     changeTurn,
     winCondition,
+    resetWinner,
   };
 })();
 
