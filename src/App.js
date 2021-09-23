@@ -14,6 +14,8 @@ const reducer = (ships, action) => {
       return ships.filter((ship) => ship.name !== action.name);
     case 'randomly placed':
       return {};
+    case 'reset ships':
+      return gameController.playerOne.board.shipsToPlace;
     default:
       throw new Error('oops');
   }
@@ -117,9 +119,21 @@ function App() {
   const checkforWinner = () => {
     let winner = gameController.winCondition();
     if (winner) {
-      setGameOver(true);
       setGameWinner(`${winner} wins!`);
+      setGameOver(true);
     }
+    winner = null;
+  };
+
+  const handlePlayAgain = () => {
+    setGameStarted(false);
+    setGameOver(false);
+    setGameWinner(null);
+    setPlayerOneGridState(gameController.playerOne.board.grid);
+    setPlayerTwoGridState(gameController.playerTwo.board.grid);
+    setShowShipPanel(true);
+    gameController.resetWinner();
+    dispatch({ type: 'reset ships' });
   };
 
   const playerOneRandomPlacement = () => {
@@ -130,14 +144,6 @@ function App() {
     setIsHovering(false);
     setPlacingShip(null);
     dispatch({ type: 'randomly placed' });
-  };
-
-  const handlePlayAgain = () => {
-    setGameStarted(false);
-    setGameOver(false);
-    setPlayerOneGridState(gameController.playerOne.board.grid);
-    setPlayerTwoGridState(gameController.playerTwo.board.grid);
-    setShowShipPanel(true);
   };
 
   return (
