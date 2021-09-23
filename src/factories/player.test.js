@@ -15,7 +15,7 @@ describe('Player tests', () => {
       playerTwo.attack(playerOneBoard, 0, 0);
       expect(playerOneBoard.grid[0][0]).toStrictEqual({
         hit: true,
-        ship: { name: 'destroyer', startPos: '00' },
+        ship: { name: 'destroyer', index: 0 },
       });
     });
   });
