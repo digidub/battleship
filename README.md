@@ -18,7 +18,7 @@ In building this project I leveraged the following concepts and technologies:
   - Checking for deep object equality using `toStrictEqual` rather than `toEqual`.
   - Mocking data to improve testing efficiency.
   - Writing tests before application logic enabled me to be more concise and intentional with my code.
-- **React - Hookes**
+- **React - Hooks**
   - useReducer - used to manage complex state changes for the placement of ship objects
 - **Styled components**
   - The styled components library was used to couple component logic and styling together for ease of editing.
